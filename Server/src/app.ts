@@ -1,8 +1,17 @@
 import express, { NextFunction, Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
-// import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import mongoose from 'mongoose';
+
+// import Debug from 'debug';
+// const debug = Debug('week-9-node-task-sq011-poda-leslie-bund:server');
+// import 'dotenv/config';
+
+// mongoose.connect(<string>process.env.MONGO_URI)
+// .then(() => debug('Connected to Database'))
+// .catch((err) => debug('Failed to Connect to Database', err));
+
 
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
@@ -13,7 +22,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
