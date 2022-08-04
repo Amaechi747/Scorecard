@@ -8,6 +8,7 @@ const app = require('../dist/app').default;
 const http = require('http');
 const debug = require('debug')('live-project-scorecard-sq011a:server');
 const mongoose = require('mongoose');
+
 require('dotenv').config()
 
 const db = process.env.dbURI 
@@ -15,6 +16,7 @@ const db = process.env.dbURI
 /**
  * Connect to database
  */
+ 
 
  const dataBase = async function(){
      try{
