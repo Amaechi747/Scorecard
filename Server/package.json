@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "serve": "nodemon ./bin/www",
     "build": "tsc",
     "watch": "tsc --watch",
     "dev": "DEBUG=live-project-scorecard-sq011a:server nodemon ./bin/www",

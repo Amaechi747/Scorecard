@@ -10,9 +10,26 @@ const debug = require('debug')('live-project-scorecard-sq011a:server');
 const mongoose = require('mongoose');
 require('dotenv').config()
 
+const db = process.env.dbURI 
+
 /**
  * Connect to database
  */
+
+ const dataBase = async function(){
+     try{
+         if (db !== undefined){
+             const isConnected = await mongoose.connect(db);
+             if(isConnected){
+                console.log("DB is connected")
+             }
+         }
+     }catch(error){
+         throw new Error(`${error}`)
+     }
+ }
+ dataBase();
+
 
  mongoose.connect(process.env.MONGO_URI)
  .then(() => debug('Connected to Database'))
