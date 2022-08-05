@@ -6,3 +6,12 @@ interface IAdmin{
     role: string;
     stack: string;
 }
+
+interface IAdminUpdate{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    role?: string;
+    stack?: string;
+}

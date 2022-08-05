@@ -5,25 +5,24 @@ import Joi, {ValidationError} from 'joi';
 // const maxSquadNo = ;
 
 
-const adminSchema = Joi.object({
+const adminUpdateSchema = Joi.object({
     firstName: Joi.string()
         .alphanum()
         .min(3)
-        .max(30)
-        .required(),
+        .max(30),
 
     lastName: Joi.string()
         .alphanum()
         .min(3)
-        .max(30)
-        .required(),
+        .max(30),
+  
 
     email: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ['com'] } }),
 
     password: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
-        .required(),
+        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+       
 
     confirmPassword: Joi.ref('password'),
 
@@ -34,21 +33,21 @@ const adminSchema = Joi.object({
 
     status: Joi.string(),
 
-    role: Joi.string()
-        .required(),
+    role: Joi.string(),
+
 
    
 })
  
 
 
-//Validate user function
-export const validateAdminDetails = async function(req: Request, res: Response, next: NextFunction){
+//Validate data
+export const validateAdminUpdateDetails = async function(req: Request, res: Response, next: NextFunction){
     try {
 
         // Validate input details
         const data = req.body
-        const valid = await adminSchema
+        const valid = await adminUpdateSchema
             .validateAsync({...data});
         if(valid){
             next();
