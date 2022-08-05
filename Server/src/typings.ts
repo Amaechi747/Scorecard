@@ -15,3 +15,8 @@ interface IAdminUpdate{
     role?: string;
     stack?: string;
 }
+
+interface ILogin {
+    email: string;
+    password: string;
+}
