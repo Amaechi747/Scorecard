@@ -1,6 +1,11 @@
 import mongoose, {Schema} from "mongoose";
 import Stack from './stackSchema'
-const userModelSchema = new Schema({
+
+interface IObjectId extends mongoose.Document{
+    id: Schema.Types.ObjectId
+}
+const id: IObjectId = Object("62ec43d22d8d489ca5f6c9dd");
+const adminModelSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     email: {type: String, unique: true, required: true},
@@ -11,13 +16,16 @@ const userModelSchema = new Schema({
         required: true },
     stack: {
         type: Schema.Types.ObjectId,
-        ref: Stack},
-    phoneNo: {type: Number},
-    imageUrl: {type: String},
-    addedBy: {type: String},
+        ref: Stack,
+        default: id},
+    phoneNo: {type: Number, default: 1234},
+    imageUrl: {type: String, default: "#"}
 },
 {
 timestamps: true
 })
-const User = mongoose.model('User', userModelSchema);
-export default User;
+
+
+const Admin = mongoose.model('Admin', adminModelSchema);
+
+export default Admin;

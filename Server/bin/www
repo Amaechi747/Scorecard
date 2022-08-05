@@ -23,7 +23,8 @@ const db = process.env.dbURI
          if (db !== undefined){
              const isConnected = await mongoose.connect(db);
              if(isConnected){
-                console.log("DB is connected")
+                debug("DB is connected")
+                console.log('DB connected')
              }
          }
      }catch(error){
@@ -33,9 +34,9 @@ const db = process.env.dbURI
  dataBase();
 
 
- mongoose.connect(process.env.MONGO_URI)
- .then(() => debug('Connected to Database'))
- .catch((err) => debug('Failed to Connect to Database', err));
+//  mongoose.connect(process.env.dbURI)
+//  .then(() => debug('Connected to Database'))
+//  .catch((err) => debug('Failed to Connect to Database', err));
 
 
 /**
