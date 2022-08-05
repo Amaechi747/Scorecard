@@ -13,16 +13,21 @@ import mongoose from 'mongoose';
 // .catch((err) => debug('Failed to Connect to Database', err));
 
 
+// Import Routes 
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
+import adminRouter from "./routes/admin";
 
 const app = express();
 
+
+/***********************************************************Middleware*************************************************/
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/admin', adminRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -37,9 +42,16 @@ app.use(function(err: HttpError, req: Request, res: Response, next: NextFunction
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.message);
 });
 
+
+/***********************************************************Middleware*************************************************/
+
+
+
+// Export
 export default app;
