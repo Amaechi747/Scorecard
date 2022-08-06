@@ -20,3 +20,8 @@ interface ILogin {
     email: string;
     password: string;
 }
+
+interface Stack {
+    name: string;
+    imageUrl: string;
+}

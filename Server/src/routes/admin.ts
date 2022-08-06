@@ -2,7 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import {validateAdminDetails} from '../utils/adminInputValidator';
 import {validateAdminUpdateDetails} from '../utils/adminUpdateValidator';
 
-import {addStack, createAdmin, deleteStack, editAdmin, editStack, viewAllStack, activateAdmin, verifyAdmin, deactivateAdmin, deleteAdmin} from '../controllers/adminController';
+import { createAdmin, editAdmin, activateAdmin, verifyAdmin, deactivateAdmin, deleteAdmin} from '../controllers/adminController';
+import {viewAllStack,addStack,editStack,deleteStack} from '../controllers/stackController';
 
 import { HttpError } from "http-errors";
 
