@@ -30,8 +30,9 @@ const adminSchema = Joi.object({
     phoneNo: Joi.number(),
 
     squad: Joi.number()
-        .min(1)
-        .required(),
+        .min(1),
+
+    status: Joi.string(),
 
     role: Joi.string()
         .required(),

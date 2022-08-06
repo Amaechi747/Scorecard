@@ -1,23 +1,13 @@
+import Stack from '../models/stackSchema';
+import ADMIN from '../utils/adminCRUD';
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler  from 'express-async-handler';
-import {createAdmin, getAdmin, updateAdminImage, changeAdminPassword} from '../utils/adminCRUD';
-
-export const addAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
-  
-    const data: IAdmin = req.body;
-    const admin = await createAdmin(data)
-    if (admin){
-        // console.log('I am here');
-        res.status(200).json(admin);
-    }
- 
-})
 
 export const getAdminProfile = asyncHandler( async function (req:Request, res: Response) {
     
     // Expecting admins ID from req.params
     const adminId = req.params.id;
-    const admin = await getAdmin(adminId);
+    const admin = await ADMIN.getAdmin(adminId);
     if(admin) {
         res.status(200).json(admin);
     }
@@ -29,7 +19,7 @@ export const addNewImage = asyncHandler( async function (req: Request, res: Resp
         const adminId = req.params.id;
         // console.log('Path: ',req.file.path, '\n');
 
-        const newImageUrl = await updateAdminImage(adminId, req.file.path);
+        const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
         if(newImageUrl) {
             res.status(200).send(newImageUrl);
             return;
@@ -37,9 +27,79 @@ export const addNewImage = asyncHandler( async function (req: Request, res: Resp
     }
 } )
 
+// const ADMIN_API = {
+
+// }
+
+export const createAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+        // Create admin
+        const data: IAdmin = req.body;
+        const admin = await ADMIN.create(data)
+        if (admin){
+            console.log('I am here');
+            res.status(200).json(admin);
+            return;
+        }
+ 
+})
+
+export const editAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} = req.params;
+    console.log('Req',id)
+    const update: IAdminUpdate = req.body;
+    // Update details
+    const updatedAdminData = await ADMIN.edit(id, update)
+    //Send updated data
+    if(updatedAdminData){
+        res.status(201).send(updatedAdminData);
+        return;
+    }
+
+})
+
+export const activateAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} =req.params;
+    const activated = await ADMIN.activate(id);
+    if(activated){
+        res.status(200).send(activated);
+        return;
+    }
+})
+
+export const verifyAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    // Get token
+    console.log(req.query);
+    const {token} = req.query;
+    const verified  = await ADMIN.verify(token)
+    if(verified){
+        res.status(200).send(verified)
+        return;
+    }
+})
+
+export const deactivateAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    //Get admin Id
+    const {id} = req.params;
+    const deactivated = await ADMIN.deactivate(id);
+    if(deactivated){
+        res.status(201).send(deactivated)
+        return;
+    }
+})
+
+export const deleteAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    // Get admin Id
+    const {id} = req.params;
+    const deleted = await ADMIN.delete(id);
+    if(deleted){
+        res.status(201).send(deleted);
+        return;
+    }
+})
+
 export const updateAdminPassword = asyncHandler( async function (req:Request, res: Response) {
     const { password: oldPass, newPassword: newPass } = req.body;
-    const result = await changeAdminPassword(req.params.id, newPass, oldPass);
+    const result = await ADMIN.changeAdminPassword(req.params.id, newPass, oldPass);
     if (result) {
         res.send('Password has been updated');
     }
