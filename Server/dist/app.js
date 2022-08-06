@@ -7,7 +7,9 @@ const express_1 = __importDefault(require("express"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
-// import Debug from 'debug';
+const dotenv_1 = __importDefault(require("dotenv"));
+const dotEnv = dotenv_1.default.config();
+// import Debug from 'debug';  
 // const debug = Debug('week-9-node-task-sq011-poda-leslie-bund:server');
 // import 'dotenv/config';
 // mongoose.connect(<string>process.env.MONGO_URI)

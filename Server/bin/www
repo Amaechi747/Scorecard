@@ -9,7 +9,7 @@ const http = require('http');
 const debug = require('debug')('live-project-scorecard-sq011a:server');
 const mongoose = require('mongoose');
 
-require('dotenv').config()
+// require('dotenv').config()
 
 const db = process.env.dbURI 
 
