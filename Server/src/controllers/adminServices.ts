@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction} from 'express';
 import mongoose, {Schema} from "mongoose";
-import { createDecadevSchema, Decadev } from "../models/adminServiceSchema";
+import { createDecadevSchema, Decadev} from "../models/adminServiceSchema";
+const debug = require('debug')('live-project-scorecard-sq011a:server');
 
 //Function to fetch decadev email from database
 export const checkDecadev = async (decadev: ILogin)=>{
-    const decadevEmail = await Decadev.find({email: decadev.email});
+    const decadevEmail = await Decadev.findOne({email: decadev.email});
     return decadevEmail;
 }
 
@@ -12,21 +13,24 @@ export const checkDecadev = async (decadev: ILogin)=>{
 export const createDecadev = async (req: Request, res: Response, next: NextFunction) => {
     try{
         let decadevExist = await checkDecadev(req.body);
-        if(decadevExist.length > 0){
+        if(decadevExist){
             throw new Error('Decadev already exists');
         }
 
         const newDecadev = new Decadev({
-            firstNName: req.body.firstname,
+            firstName: req.body.firstname,
             lastName: req.body.lastname,
             email: req.body.email,
             stack: req.body.stack,
+            phoneNo: req.body.phoneNo,
             squad: req.body.squad
         })
         const decadev = await newDecadev.save();
-        res.status(200).send('Decadev successfully registered');
+        console.log(decadev);
+        return res.status(200).send('Decadev successfully registered');
     } catch(err){
-        res.render('error');
+        debug('Error: ', err);
+        return res.status(404).send('error');
     }
 } 
 
@@ -34,16 +38,19 @@ export const createDecadev = async (req: Request, res: Response, next: NextFunct
 export const updateDecadev = async(req: Request, res: Response, next: NextFunction) => {
     try{
         const decadev = await Decadev.findById(req.params.id);
+        console.log(decadev, '88888888888888')
         if(!decadev) return;
-        decadev.firstName = req.body.firstname;
-        decadev.lastName = req.body.lastname;
-        decadev.email = req.body.email;
-        decadev.stack = req.body.stack;
-        decadev.squad = req.body.squad;
+        decadev.firstName = req.body.firstname || decadev.firstName;
+        decadev.lastName = req.body.lastname || decadev.lastName;
+        decadev.email = req.body.email || decadev.email;
+        decadev.stack = req.body.stack || decadev.stack;
+        decadev.phoneNo = req.body.phoneNo || decadev.phoneNo;
+        decadev.squad = req.body.squad || decadev.squad;
 
         decadev.save();
         return res.status(200).send("Decadev Updated Successfully!")
     } catch(err){
+        debug('Error: ', err);
         return res.status(400).send("Decadev Not Found!");
     }
 }
