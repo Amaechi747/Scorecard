@@ -6,3 +6,9 @@ interface IAdmin{
     role: string;
     stack: string;
 }
+
+interface IAdminPasswordUpdate {
+    password: string;
+    newPassword: string;
+    confirmPassword: string;
+}

@@ -38,8 +38,18 @@ const adminSchema = Joi.object({
 
    
 })
- 
 
+// Validate Admin password update input
+const adminPasswordUpdateSchema = Joi.object({
+    password: Joi.string()
+        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+        .required(),
+    newPassword: Joi.string()
+        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+        .required(),
+
+    confirmPassword: Joi.ref('newPassword'),
+})
 
 //Validate user function
 export const validateAdminDetails = async function(req: Request, res: Response, next: NextFunction){
@@ -48,6 +58,29 @@ export const validateAdminDetails = async function(req: Request, res: Response, 
         // Validate input details
         const data = req.body
         const valid = await adminSchema
+            .validateAsync({...data});
+        if(valid){
+            next();
+        }
+    } catch (error: unknown ) {
+
+        // Send Error to handler
+        if (error instanceof ValidationError){
+            const {message} = error.details[0];
+            next(new Error(message));
+        }
+           
+    }
+}
+
+
+//Validate user function
+export const validateAdminPasswordUpdateInput = async function(req: Request, res: Response, next: NextFunction){
+    try {
+
+        // Validate input details
+        const data = req.body
+        const valid = await adminPasswordUpdateSchema
             .validateAsync({...data});
         if(valid){
             next();
