@@ -1,7 +1,31 @@
-import { Request, Response, NextFunction } from 'express';
-import asyncHandler  from 'express-async-handler';
 import Stack from '../models/stackSchema';
 import ADMIN from '../utils/adminCRUD';
+import { Request, Response, NextFunction } from 'express';
+import asyncHandler  from 'express-async-handler';
+
+export const getAdminProfile = asyncHandler( async function (req:Request, res: Response) {
+    
+    // Expecting admins ID from req.params
+    const adminId = req.params.id;
+    const admin = await ADMIN.getAdmin(adminId);
+    if(admin) {
+        res.status(200).json(admin);
+    }
+
+} )
+
+export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
+    if (req.file) {
+        const adminId = req.params.id;
+        // console.log('Path: ',req.file.path, '\n');
+
+        const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
+        if(newImageUrl) {
+            res.status(200).send(newImageUrl);
+            return;
+        }
+    }
+} )
 
 // const ADMIN_API = {
 
@@ -73,3 +97,10 @@ export const deleteAdmin = asyncHandler( async function(req: Request, res: Respo
     }
 })
 
+export const updateAdminPassword = asyncHandler( async function (req:Request, res: Response) {
+    const { password: oldPass, newPassword: newPass } = req.body;
+    const result = await ADMIN.changeAdminPassword(req.params.id, newPass, oldPass);
+    if (result) {
+        res.send('Password has been updated');
+    }
+} )

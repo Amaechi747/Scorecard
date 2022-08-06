@@ -17,8 +17,6 @@ export const viewAllStack = asyncHandler(async function (req: Request, res: Resp
 /* Create Stack Contoller */
 export const addStack = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
     const data = req.body;
-    // const stack = await new Stack(data)
-    // await stack.save();
     const stack = await ADMIN.addStack(data);
     if (stack) {
         res.status(201).json(stack);

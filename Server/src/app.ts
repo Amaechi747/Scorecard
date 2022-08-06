@@ -2,16 +2,6 @@ import express, { NextFunction, Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import dotenv from 'dotenv';
-const dotEnv = dotenv.config();
-// import Debug from 'debug';  
-// const debug = Debug('week-9-node-task-sq011-poda-leslie-bund:server');
-// import 'dotenv/config';
-
-// mongoose.connect(<string>process.env.MONGO_URI)
-// .then(() => debug('Connected to Database'))
-// .catch((err) => debug('Failed to Connect to Database', err));
-
 
 // Import Routes 
 import indexRouter from "./routes/index";

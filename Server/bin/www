@@ -19,17 +19,19 @@ const db = process.env.dbURI
  
 
  const dataBase = async function(){
-     try{
-         if (db !== undefined){
-             const isConnected = await mongoose.connect(db);
-             if(isConnected){
-                debug("DB is connected")
-                console.log('DB connected')
-             }
-         }
-     }catch(error){
-         throw new Error(`${error}`)
-     }
+    try{
+      if (db !== undefined){
+          const isConnected = await mongoose.connect(db);
+          if(isConnected){
+            debug("DB is connected")
+            console.log('DB connected')
+          }
+      }
+    }catch(err){
+      
+      debug('Error: ', err)
+      //  throw new Error(`${error}`)
+    }
  }
  dataBase();
 

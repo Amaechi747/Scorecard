@@ -7,6 +7,11 @@ interface IAdmin{
     stack: string;
 }
 
+interface IAdminPasswordUpdate {
+    password: string;
+    newPassword: string;
+    confirmPassword: string;
+}
 interface IAdminUpdate{
     firstName?: string;
     lastName?: string;
