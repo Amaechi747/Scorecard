@@ -12,6 +12,7 @@ router.post('/create_user', validateAdminDetails, createAdmin);
 router.patch('/edit/:id', validateAdminUpdateDetails, editAdmin);
 
 
+
 /* View All Stack */
 router.get('/view_all_stack', viewAllStack);
 /* Create Stack */
@@ -22,8 +23,6 @@ router.put('/edit_stack/:id', editStack);
 
 /* Delete Stack */
 router.delete('/delete_stack/:id', deleteStack)
-
-
 
 
 export default router;
