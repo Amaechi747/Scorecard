@@ -26,3 +26,14 @@ export const editAdmin = asyncHandler( async function(req: Request, res: Respons
 })
 
 
+export const getAdmin = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+    //    Get users
+    const getAllAdmins = await ADMIN.get();
+    if (getAllAdmins) {
+        res.status(200).send(getAllAdmins);
+    }
+
+
+})
+
+

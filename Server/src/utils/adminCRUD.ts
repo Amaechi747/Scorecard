@@ -53,7 +53,32 @@ const ADMIN = {
             throw new Error(`${error}`);
         }
 
+    },
+
+
+    async get() {
+        try {
+const getAllAdmin = Admin.aggregate([{
+                $match: {
+                    role: {
+                        $nin:
+                        ['SuperAdmin']
+                    }
+                }
+            }]) 
+            
+            return getAllAdmin
+        }
+        
+        catch (error) {
+
+         throw new Error(`${error}`);
+
+        }
     }
+
+
+
 }
 
 
