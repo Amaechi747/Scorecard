@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction} from 'express';
-import mongoose, {Schema} from "mongoose";
 import { createDecadevSchema, Decadev } from "../models/adminServiceSchema";
 
 //Function to fetch decadev email from database
