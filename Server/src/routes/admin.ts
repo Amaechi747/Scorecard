@@ -2,13 +2,25 @@ import express from "express";
 import {validateAdminDetails, validateAdminPasswordUpdateInput} from '../utils/adminInputValidator';
 import parser from "../utils/imageUpload";
 import {validateAdminUpdateDetails} from '../utils/adminUpdateValidator';
-import { createAdmin, editAdmin, activateAdmin, verifyAdmin, deactivateAdmin, deleteAdmin, getAdminProfile, addNewImage, updateAdminPassword} from '../controllers/adminController';
+import { 
+    createAdmin, 
+    editAdmin, 
+    activateAdmin, 
+    getAdmin, 
+    verifyAdmin, 
+    deactivateAdmin, 
+    deleteAdmin, 
+    getAdminProfile, 
+    addNewImage, 
+    updateAdminPassword
+} from '../controllers/adminController';
 import {viewAllStack,addStack,editStack,deleteStack} from '../controllers/stackController';
 
 
 const router = express.Router();
 
 /* Create Admin */
+router.get('/',getAdmin);
 router.post('/create_user', validateAdminDetails, createAdmin);
 
 /* Update Admin */

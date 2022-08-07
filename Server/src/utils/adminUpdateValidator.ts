@@ -48,6 +48,7 @@ export const validateAdminUpdateDetails = async function(req: Request, res: Resp
         // Validate input details
         const data = req.body
         const valid = await adminUpdateSchema
+        
             .validateAsync({...data});
         if(valid){
             next();
