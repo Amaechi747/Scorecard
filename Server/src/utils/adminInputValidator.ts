@@ -96,3 +96,22 @@ export const validateAdminPasswordUpdateInput = async function(req: Request, res
            
     }
 }
+
+//Vaidate Stack input
+const stackSchema = Joi.object({
+    name: Joi.string().required(),
+    imageUrl: Joi.string().required()
+})
+
+//Validate Stack input function
+export const validateStackInput = async function(req: Request, res: Response, next: NextFunction){
+    try {
+        let datainput = req.body;
+        const valid = await stackSchema.validateAsync({...datainput});
+        if(valid){
+            next();
+        }
+    } catch (error) {
+        
+    }
+}

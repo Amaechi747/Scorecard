@@ -1,10 +1,24 @@
 import express from "express";
-import {validateAdminDetails, validateAdminPasswordUpdateInput} from '../utils/adminInputValidator';
+import {validateAdminDetails, validateAdminPasswordUpdateInput, validateStackInput} from '../utils/adminInputValidator';
 import parser from "../utils/imageUpload";
 import {validateAdminUpdateDetails} from '../utils/adminUpdateValidator';
+
 import { createDecadev, editDecadev, deleteDecadev, activateDecadev, deactivateDecadev } from '../controllers/decadevController'
 import { HttpError } from "http-errors";
-import { createAdmin, editAdmin, activateAdmin, verifyAdmin, deactivateAdmin, deleteAdmin, getAdminProfile, addNewImage, updateAdminPassword} from '../controllers/adminController';
+
+import { 
+    createAdmin, 
+    editAdmin, 
+    activateAdmin, 
+    getAdmin, 
+    verifyAdmin, 
+    deactivateAdmin, 
+    deleteAdmin, 
+    getAdminProfile, 
+    addNewImage, 
+    updateAdminPassword
+} from '../controllers/adminController';
+
 import {viewAllStack,addStack,editStack,deleteStack} from '../controllers/stackController';
 import { validateDecadevDetails } from "../utils/decadevValidator";
 
@@ -12,6 +26,7 @@ import { validateDecadevDetails } from "../utils/decadevValidator";
 const router = express.Router();
 
 /* Create Admin */
+router.get('/',getAdmin);
 router.post('/create_user', validateAdminDetails, createAdmin);
 
 /* Update Admin */
@@ -33,7 +48,7 @@ router.delete('/delete/:id', deleteAdmin);
 router.get('/view_all_stack', viewAllStack);
 
 /* Create Stack */
-router.post('/create_stack', addStack);
+    router.post('/create_stack',validateStackInput, addStack);
 
 
 

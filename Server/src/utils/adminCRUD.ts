@@ -145,6 +145,27 @@ const ADMIN = {
 
     },
 
+
+    async get() {
+        try {
+            const getAllAdmin = Admin.aggregate([{
+                $match: {
+                    role: {
+                        $nin:
+                        ['SuperAdmin']
+                    }
+                }
+            }]) 
+            
+            return getAllAdmin
+        }
+        
+        catch (error) {
+
+         throw new Error(`${error}`);
+
+        }
+    },
     // Activate Admin
     async activate(id: string) {
         try {
@@ -239,7 +260,7 @@ const ADMIN = {
     //create a stack
     async addStack(data: Stack) {
         try {
-            const stack = await new Stack(data)
+            const stack = new Stack(data)
             await stack.save();
             return stack;
         } catch (error) {
