@@ -16,9 +16,7 @@ export const createDecadevSchema = new Schema({
         ref: Stack,
         default: id},
     phoneNo: {type: Number, default: 1234},
-    squad: {
-        type: [Number], 
-        default: [0]},
+    squad: {type: String, required: true},
     password: {type: String, required: true},
     status: {
         type: String, 
