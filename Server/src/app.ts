@@ -2,11 +2,15 @@ import express, { NextFunction, Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import dotenv from 'dotenv';
+const dotEnv = dotenv.config();
 
 // Import Routes 
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 import adminRouter from "./routes/admin";
+
+
 
 const app = express();
 

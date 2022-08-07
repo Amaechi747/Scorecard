@@ -87,7 +87,7 @@ export const DECADEV = {
                 let {email, status, id} = decadev;
                 //Change Status
                 status = "active";
-                const token = jwt.sign({status, id}, `${process.env.JWT_SECRET_KEY}`, {expiresIn: '1d'})
+                const token = jwt.sign({status, id}, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
                 const url = `${process.env.BASE_URL}/users/verify?token=${token}`;
                 //Send email to decadev
                 const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>`;
@@ -102,7 +102,7 @@ export const DECADEV = {
     async verify(token: unknown){
         try{
             if(token){
-                const decoded = jwt.verify(`${token}`, `${process.env.JWT_SECRET_KEY}`);
+                const decoded = jwt.verify(`${token}`, `${process.env.JWT_SECRET}`);
                 if(decoded instanceof Object){
                     const {status, id} = decoded;
 
