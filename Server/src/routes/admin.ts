@@ -1,5 +1,5 @@
 import express from "express";
-import {validateAdminDetails, validateAdminPasswordUpdateInput} from '../utils/adminInputValidator';
+import {validateAdminDetails, validateAdminPasswordUpdateInput, validateStackInput} from '../utils/adminInputValidator';
 import parser from "../utils/imageUpload";
 import {validateAdminUpdateDetails} from '../utils/adminUpdateValidator';
 import { 
@@ -42,7 +42,7 @@ router.delete('/delete/:id', deleteAdmin);
 router.get('/view_all_stack', viewAllStack);
 
 /* Create Stack */
-router.post('/create_stack', addStack);
+    router.post('/create_stack',validateStackInput, addStack);
 
 /* Edit Stack */
 router.put('/edit_stack/:id', editStack);
