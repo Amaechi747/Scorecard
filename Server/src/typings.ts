@@ -6,7 +6,6 @@ interface IAdmin{
     role: string;
     stack: string;
 }
-
 interface IAdminPasswordUpdate {
     password: string;
     newPassword: string;
@@ -20,6 +19,27 @@ interface IAdminUpdate{
     role?: string;
     stack?: string;
 }
+
+interface IDecadev{
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    stack: string;
+}
+interface IDecadevPasswordUpdate{
+    password: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+interface IDecadevUpdate{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    stack?: string;
+}
+
 
 interface ILogin {
     email: string;

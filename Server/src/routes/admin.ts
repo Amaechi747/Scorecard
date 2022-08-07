@@ -2,6 +2,10 @@ import express from "express";
 import {validateAdminDetails, validateAdminPasswordUpdateInput, validateStackInput} from '../utils/adminInputValidator';
 import parser from "../utils/imageUpload";
 import {validateAdminUpdateDetails} from '../utils/adminUpdateValidator';
+
+import { createDecadev, editDecadev, deleteDecadev, activateDecadev, deactivateDecadev } from '../controllers/decadevController'
+import { HttpError } from "http-errors";
+
 import { 
     createAdmin, 
     editAdmin, 
@@ -14,7 +18,9 @@ import {
     addNewImage, 
     updateAdminPassword
 } from '../controllers/adminController';
+
 import {viewAllStack,addStack,editStack,deleteStack} from '../controllers/stackController';
+import { validateDecadevDetails } from "../utils/decadevValidator";
 
 
 const router = express.Router();
@@ -43,6 +49,27 @@ router.get('/view_all_stack', viewAllStack);
 
 /* Create Stack */
     router.post('/create_stack',validateStackInput, addStack);
+
+
+
+/*Admin Create || Edit || Delete Decadev */
+/* Create Decadev */
+router.post('/create_decadev', validateDecadevDetails, createDecadev);
+
+/* Edit Decadev */
+router.patch('/edit_decadev/:id', editDecadev);
+
+/*Delete Decadev */
+router.delete('/delete_decadev/:id', deleteDecadev);
+
+/* Activate Decadev */
+router.post('/activate_decadev/:id', activateDecadev);
+
+/* Deactivate Decadev */
+router.patch('/deactivate_decadev/:id', deactivateDecadev);
+
+/////////////////////////////////////////////////
+
 
 /* Edit Stack */
 router.put('/edit_stack/:id', editStack);
