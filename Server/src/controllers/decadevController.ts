@@ -9,7 +9,7 @@ export const createDecadev = asyncHandler(async (req: Request, res: Response, ne
     const data: IDecadev = req.body;
     const decadev = await DECADEV.create(data);
     if(decadev){
-        res.status(200).json(decadev);
+        res.status(200).send("Decadev account created successfully");
         return;
     }
 }) 
@@ -22,7 +22,7 @@ export const editDecadev = asyncHandler(async (req: Request, res: Response, next
     const updatedDecadevData = await DECADEV.edit(id, update)
     //Send updated data
     if(updatedDecadevData){
-        res.status(201).send(updatedDecadevData);
+        res.status(201).send("Update saved");
         return;
     }
 })
@@ -33,7 +33,7 @@ export const deleteDecadev  = asyncHandler(async(req: Request, res: Response, ne
     const {id} = req.params;
     const deleted = await DECADEV.delete(id);
     if(deleted){
-        res.status(201).send(deleted);
+        res.status(201).send("Decadev account deleted successfully");
         return;
     }
 })
@@ -42,7 +42,7 @@ export const activateDecadev = asyncHandler(async(req: Request, res: Response, n
     const {id} = req.params;
     const activated = await DECADEV.activate(id);
     if(activated){
-        res.status(200).send(activated);
+        res.status(200).send("Decadev account activated");
         return;
     }
 })
@@ -52,7 +52,7 @@ export const verifyDecadev = asyncHandler( async(req: Request, res: Response, ne
     const {token} = req.query;
     const verified = await DECADEV.verify(token);
     if(verified){
-        res.status(200).send(verified);
+        res.status(200).send("Account verified successfully");
         return;
     }
 })
@@ -62,7 +62,7 @@ export const deactivateDecadev = asyncHandler(async(req: Request, res: Response,
     const {id} = req.params;
     const deactivated = await DECADEV.deactivate(id);
     if(deactivated){
-        res.status(200).send(deactivated);
+        res.status(200).send("Decadev account deactivated");
         return;
     }
 })
