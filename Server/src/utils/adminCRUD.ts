@@ -116,11 +116,23 @@ const ADMIN = {
             // Hash Password
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-
             const newAdmin = new Admin({ ...data, password: hashedPassword })
             const admin = await newAdmin.save();
 
             if (admin) {
+
+            /********************************** Email Service to admin ************************************/
+            //Send email to new Admin
+            const url = `${process.env.BASE_URL}/admin/login`;
+            //Send email to applicant
+            const text = `<p>You have recently been added as an admin. <br>
+            <span style="text-decoration: underline"> Login details <span> <br>
+            <span style="text-decoration: none"> Email:<span> ${email} <br>
+            <span style="text-decoration: none"> Password: <span> ${password} <br>
+            <span style="text-decoration: none">Go to portal <a href=" http://${url}"> click here </a>. <span></p>`
+            await emailService(email, url, text)
+            /********************************** Email Service to admin ************************************/
+
                 return admin;
             }
 
