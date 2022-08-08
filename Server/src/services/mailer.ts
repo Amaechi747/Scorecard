@@ -36,8 +36,8 @@ export const emailService = function(emailAddress: unknown, url: string, text: s
     try{
         // const text = `<p>Click to be verified as an admin <a href=" http://${ url }"> click here </a>.</p>`
         const message = {
-            from: 'Nodemailer <daamsexchange@gmail.com>',
-            to: `Nodemailer <${emailAddress}>`,
+            from: 'Decagon Edo Tech Park <daamsexchange@gmail.com>',
+            to: `Decagon Edo Tech Park <${emailAddress}>`,
             subject: 'DAAMS REGISTRATION',
             text: 'For clients with plaintext support only',
             html: text,
