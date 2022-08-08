@@ -124,13 +124,14 @@ const ADMIN = {
             /********************************** Email Service to admin ************************************/
             //Send email to new Admin
             const url = `${process.env.BASE_URL}/admin/login`;
+            const subject = `Admin Login Details`
             //Send email to applicant
             const text = `<p>You have recently been added as an admin. <br>
             <span style="text-decoration: underline"> Login details <span> <br>
             <span style="text-decoration: none"> Email:<span> ${email} <br>
             <span style="text-decoration: none"> Password: <span> ${password} <br>
             <span style="text-decoration: none">Go to portal <a href=" http://${url}"> click here </a>. <span></p>`
-            await emailService(email, url, text)
+            await emailService(email, subject, text)
             /********************************** Email Service to admin ************************************/
 
                 return admin;
@@ -196,10 +197,11 @@ const ADMIN = {
                 })
                 // const token = jwt.sign({...admin}, `${process.env.JWT_SECRET}`, {
                 //     expiresIn: '30d'})
+                const subject = `Admin Verification `
                 const url = `${process.env.BASE_URL}/admin/verify?token=${token}`;
                 //Send email to applicant
                 const text = `<p>Click to be verified as an admin <a href=" http://${url}"> click here </a>.</p>`
-                await emailService(email, url, text)
+                await emailService(email, subject, text)
                 return admin;
             }
 
