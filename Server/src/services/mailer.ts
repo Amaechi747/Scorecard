@@ -43,15 +43,13 @@ export const emailService = function(emailAddress: unknown, subject: string, tex
             html: text,
         }
         transporter.sendMail(message, (err , data )=>{
-            if(err){
-                console.log("Error" + err);
+            if (err) {
+                throw new Error("Error occured while sending email")
             }else{
-                console.log("Email successfully sent")
                 return 'Email successfully sent';
             }
         })
     }catch(error){
-        console.log(error)
         throw new Error(`${error}`)
     }
 }
