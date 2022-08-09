@@ -29,3 +29,15 @@ describe('Create Admin Models', ()=>{
         expect(Error.ValidationError).toThrow();
     })
 })
+
+function beforeAll(arg0: () => Promise<void>) {
+    throw new Error('Function not implemented.');
+}
+function afterAll(arg0: () => Promise<void>) {
+    throw new Error('Function not implemented.');
+}
+
+function afterEach(arg0: () => Promise<() => Promise<void>>) {
+    throw new Error('Function not implemented.');
+}
+
