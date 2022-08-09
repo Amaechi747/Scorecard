@@ -112,6 +112,31 @@ export const validateStackInput = async function(req: Request, res: Response, ne
             next();
         }
     } catch (error) {
-        
+        // Send Error to handler
+        if (error instanceof ValidationError){
+            const {message} = error.details[0];
+            next(new Error(message));
+        }
+    }
+}
+
+const decadevScore = Joi.object({
+    algorithm: Joi.number().min(0).max(100).required(),
+    agileTest: Joi.number().min(0).max(100).required(),
+    weeklyTask: Joi.number().min(0).max(100).required(),
+    assessment: Joi.number().min(0).max(100).required(),
+    cummulative: Joi.number().min(0).max(100)
+})
+
+export const validateScoreInput = async function(req: Request, res: Response, next: NextFunction) {
+    try {
+        const valid = await decadevScore.validateAsync({...req.body});
+        if(valid) next();
+    } catch (error) {
+        // Send Error to handler
+        if (error instanceof ValidationError){
+            const {message} = error.details[0];
+            next(new Error(message));
+        }
     }
 }

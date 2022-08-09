@@ -2,8 +2,9 @@ import express, { NextFunction, Request, Response } from "express";
 import createError, { HttpError } from "http-errors";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import dotenv from 'dotenv';
-const dotEnv = dotenv.config();
+import "dotenv/config"
+// import dotenv from 'dotenv';
+// const dotEnv = dotenv.config();
 
 // Import Routes 
 import indexRouter from "./routes/index";
@@ -39,7 +40,7 @@ app.use(function(err: HttpError, req: Request, res: Response, next: NextFunction
 
   // render the error page
   res.status(err.status || 500);
-  res.send(err.message);
+  res.send({error: err.message});
 });
 
 

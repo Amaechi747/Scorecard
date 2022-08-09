@@ -66,7 +66,7 @@ export const verifyAdmin = asyncHandler( async function(req: Request, res: Respo
     const {token} = req.query;
     const verified  = await ADMIN.verify(token)
     if(verified){
-        res.status(200).send(verified)
+        res.status(200).send(verified);
         return;
     }
 })
@@ -106,6 +106,6 @@ export const updateAdminPassword = asyncHandler( async function (req:Request, re
     const { password: oldPass, newPassword: newPass } = req.body;
     const result = await ADMIN.changeAdminPassword(req.params.id, newPass, oldPass);
     if (result) {
-        res.send('Password has been updated');
+        res.send({status: 'Success', message: 'Password has been updated'});
     }
 } )

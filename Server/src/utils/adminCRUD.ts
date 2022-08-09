@@ -87,7 +87,6 @@ const ADMIN = {
             }
         } catch (error: unknown) {
             throw new Error(`${error}`);
-            
         }
     },
 
@@ -304,7 +303,7 @@ const ADMIN = {
         } catch (error) {
             throw new Error(`${error}`);
         }
-    },
+    }
 }
 
 
