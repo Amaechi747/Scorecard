@@ -32,13 +32,13 @@ const transporter = nodemailer.createTransport({
 
 
 
-export const emailService = function(emailAddress: unknown, url: string, text: string){
+export const emailService = function(emailAddress: unknown, subject: string, text: string){
     try{
         // const text = `<p>Click to be verified as an admin <a href=" http://${ url }"> click here </a>.</p>`
         const message = {
-            from: 'Nodemailer <daamsexchange@gmail.com>',
-            to: `Nodemailer <${emailAddress}>`,
-            subject: 'DAAMS REGISTRATION',
+            from: 'Decagon Edo Tech Park <daamsexchange@gmail.com>',
+            to: `Decagon Edo Tech Park <${emailAddress}>`,
+            subject: subject,
             text: 'For clients with plaintext support only',
             html: text,
         }

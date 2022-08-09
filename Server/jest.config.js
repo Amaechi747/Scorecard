@@ -6,4 +6,11 @@ module.exports = {
   moduleFileExtensions: ["js", "jsx", "ts", "tsx", "json", "node"],
   roots: ["<rootDir>/src"],
   testMatch: ["<rootDir>/src/__test__/*.test.ts"],
+  verbose: true,
+  forceExit: true,
+  clearMocks: true
 };
+
+// roots: ["<rootDir>/dist"],
+// testMatch: ["<rootDir>/dist/__test__/*.test.ts"],
+
