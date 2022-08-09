@@ -14,7 +14,7 @@ const decadevSchema = Joi.object({
     phoneNo: Joi.number(),
     squad: Joi.number().min(1),
     status: Joi.string(),
-})
+}).with('password', 'confirmPassword')
 
 //Validate Decadev password update
 const decadevPasswordUpdateSchema = Joi.object({

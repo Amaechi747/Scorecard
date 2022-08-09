@@ -1,8 +1,9 @@
-import { exec } from 'child_process';
 import mongoose,{Error} from 'mongoose';
+import {describe, expect, test, it, beforeAll, afterAll, afterEach} from '@jest/globals'
 import supertest from 'supertest';
 import {fakeAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
 import Admin from '../models/adminSchema';
+import { debug } from 'console';
 
 
 
@@ -25,7 +26,13 @@ describe('Create Admin Models', ()=>{
             password: 1234,
         }
         const newAdmin = new Admin({...fake});
-        await newAdmin.save();
-        expect(Error.ValidationError).toThrow();
+        try {
+            await newAdmin.save();
+        } catch (error: any) {
+            const { name } = error;
+            expect(name).toEqual('ValidationError');
+        }
     })
 })
+
+

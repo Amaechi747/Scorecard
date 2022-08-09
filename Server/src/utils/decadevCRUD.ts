@@ -1,9 +1,11 @@
-import { Decadev } from "../models/decadevSchema";
+import Decadev from "../models/decadevSchema";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { emailService } from "../services/mailer";
-import Stack from '../models/stackSchema';
-import { deactivateAdmin } from "../controllers/adminController";
+import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
+import { ObjectId } from 'mongoose';
+// import Stack from '../models/stackSchema';
+// import { deactivateAdmin } from "../controllers/adminController";
 
 
 export const DECADEV = {
@@ -23,6 +25,7 @@ export const DECADEV = {
             const hashedPassword = await bcrypt.hash(password, salt);
 
             const newDecadev = new Decadev({...data, password: hashedPassword});
+            newDecadev.validateSync();
             const decadev = newDecadev.save();
 
             if(decadev){
@@ -90,7 +93,8 @@ export const DECADEV = {
                 const token = jwt.sign({status, id}, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
                 const url = `${process.env.BASE_URL}/users/verify?token=${token}`;
                 //Send email to decadev
-                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>`;
+                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>
+                <p style="text-align: center;">Link expires in 24hrs</p>`;
                 await emailService(email, url, text);
                 return decadev;
             }
@@ -113,7 +117,7 @@ export const DECADEV = {
                     return activatedDecadev;
                 }
             }
-        } catch(error){
+        } catch(error) {
             throw new Error(`${error}`);
         }
     },
@@ -127,8 +131,22 @@ export const DECADEV = {
                 const deactivatedDecadev = await Decadev.findOneAndUpdate(filter, update, {new: true});
                 return deactivatedDecadev;
             }
-        } catch(error){
+        } catch(error) {
             throw new Error(`${error}`);
         }
+    },
+    // AddScore for a decadev, using decadev's ID
+    async addScore(id: String, data: IWeeklyScore) {
+        try {
+            const { assessment, agileTest, algorithm, weeklyTask} = data;
+            data.cummulative = (assessment * 0.2) + (algorithm * 0.2) + (agileTest * 0.2) + (weeklyTask * 0.4)
+            if(id) {
+                const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true }).exec();
+                return decadevScore;
+            }
+        } catch (error) {
+            throw new Error(`${error}`)
+        }
+        return;
     }
 }

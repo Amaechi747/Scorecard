@@ -50,3 +50,11 @@ interface Stack {
     name: string;
     imageUrl: string;
 }
+
+interface IWeeklyScore {
+    algorithm: number;
+    agileTest: number;
+    weeklyTask: number;
+    assessment: number;
+    cummulative?: number;
+}
