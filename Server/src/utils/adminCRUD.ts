@@ -147,12 +147,9 @@ const ADMIN = {
         try {
             //Set filter variable
             const filter = { _id: id };
-            //Prevent email and password update
-            const {email, password} = update;
-            let disallowed = email || password;
-            if(disallowed){
-                disallowed = email ? "Email": "Password";
-                throw new Error(`Oops!!! ${disallowed} cannot be updated.`);
+            const {password} = update;
+            if(password){
+                throw new Error("Oops!!! Admin Password cannot be updated by the superadmin");
             }
             //Update
             const updatedAdmin = Admin.findOneAndUpdate(filter, update, { new: true });

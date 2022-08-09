@@ -12,7 +12,7 @@ import adminRouter from "./routes/admin";
 
 
 
-const app = express();
+export const app = express();
 
 
 /***********************************************************Middleware*************************************************/
