@@ -147,6 +147,13 @@ const ADMIN = {
         try {
             //Set filter variable
             const filter = { _id: id };
+            //Prevent email and password update
+            const {email, password} = update;
+            let disallowed = email || password;
+            if(disallowed){
+                disallowed = email ? "Email": "Password";
+                throw new Error(`Oops!!! ${disallowed} cannot be updated.`);
+            }
             //Update
             const updatedAdmin = Admin.findOneAndUpdate(filter, update, { new: true });
             if (updatedAdmin) {
