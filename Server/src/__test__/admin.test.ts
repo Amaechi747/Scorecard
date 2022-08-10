@@ -7,12 +7,11 @@ import {fakeAdmin, dummyAdmin, dbConnect, dbDisconnect, dropCollections} from '.
 
 // import { describe, it } from 'node:test';
 
-import { beforeAll, afterEach, afterAll, test, expect, describe, it, expect } from '@jest/globals'
+import { beforeAll, afterEach, afterAll, test, describe, it, expect } from '@jest/globals'
 
 
 
 import Admin from '../models/adminSchema';
-import { debug } from 'console';
 
 
 
@@ -117,17 +116,6 @@ describe('Create Admin Model Operations', ()=>{
 })
 
 describe('Create Admin Endpoints', () => {
-    // let server: any, agent;
-    // beforeEach((done) => {
-    //     server = app.listen(4000, () => {
-    //         agent = request.agent(server);
-    //         done();
-    //     })
-    // })
-
-    // afterEach((done) => {
-    //     return server && server.close(done);
-    // })
     let id: any;
     beforeEach(async () => {
         const fakePerson = await fakeAdmin();
@@ -139,15 +127,8 @@ describe('Create Admin Endpoints', () => {
     })
 
     afterEach(async () => {
-        console.log(id);
         const admin = await Admin.findOneAndDelete({id});
-        console.log('deleted');
     })
-
-    // it('It should access the verify admin endpoint', async () => {
-    //     const res = await  request(app).get('/admin')
-    //     expect (res.status).not.toBe(404);
-    // })
 
     it('It should return 201 for the create admin endpoint', async () => {
         const res = await  request(app).post('/admin/create_user').send({
@@ -191,9 +172,6 @@ describe('Create Admin Endpoints', () => {
     // })
 
 })
-
-
-
 
 
 describe('viewAll Admin Models', () => {
