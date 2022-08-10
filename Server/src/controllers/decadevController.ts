@@ -32,7 +32,7 @@ export const deleteDecadev  = asyncHandler(async(req: Request, res: Response, ne
     const {id} = req.params;
     const deleted = await DECADEV.delete(id);
     if(deleted){
-        res.status(201).send("Decadev account deleted successfully");
+        res.status(204).send("Decadev account deleted successfully");
         return;
     }
     return;
@@ -62,7 +62,7 @@ export const deactivateDecadev = asyncHandler(async(req: Request, res: Response,
     const {id} = req.params;
     const deactivated = await DECADEV.deactivate(id);
     if(deactivated){
-        res.status(200).send("Decadev account deactivated");
+        res.status(201).send("Decadev account deactivated");
         return;
     }
 })
