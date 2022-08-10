@@ -103,6 +103,8 @@ const ADMIN = {
                 stack
             } = data;
 
+            const stackId = await this.getOneStack(stack);
+
             const emailSubstring = email.split('@')[1]
             // if(emailSubstring !== "decagonhq.com"){
             //     throw new Error('Please use a valid decagon staff email.')
@@ -115,7 +117,7 @@ const ADMIN = {
             // Hash Password
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-            const newAdmin = new Admin({ ...data, password: hashedPassword })
+            const newAdmin = new Admin({ ...data, password: hashedPassword, stack: stackId })
             const admin = await newAdmin.save();
 
             if (admin) {
@@ -146,12 +148,17 @@ const ADMIN = {
         try {
             //Set filter variable
             const filter = { _id: id };
-            const {password} = update;
+            const {password, stack} = update;
             if(password){
                 throw new Error("Oops!!! Admin Password cannot be updated by the superadmin");
             }
             //Update
-            const updatedAdmin = Admin.findOneAndUpdate(filter, update, { new: true });
+            let stackId;
+            if(stack){
+                stackId = await this.getOneStack(stack);
+            }
+
+            const updatedAdmin = Admin.findOneAndUpdate(filter, {...update, stack: stackId}, { new: true });
             if (updatedAdmin) {
                 return updatedAdmin;
             }
@@ -301,6 +308,19 @@ const ADMIN = {
             const stackToDelete = await Stack.findByIdAndDelete(id);
             return stackToDelete;
         } catch (error) {
+            throw new Error(`${error}`);
+        }
+    },
+
+    //Get a Stack
+    async getOneStack(str: string){
+        try{
+            const filter = {name: str};
+            const stack = await Stack.findOne(filter);
+            if(stack){
+                return stack._id;
+            }
+        }catch(error){
             throw new Error(`${error}`);
         }
     }

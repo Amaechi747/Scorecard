@@ -31,6 +31,8 @@ const adminUpdateSchema = Joi.object({
     squad: Joi.number()
         .min(1),
 
+    stack: Joi.string(),
+    
     status: Joi.string(),
 
     role: Joi.string(),
