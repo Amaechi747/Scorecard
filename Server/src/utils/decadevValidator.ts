@@ -12,9 +12,10 @@ const decadevSchema = Joi.object({
         .required(),
     confirmPassword: Joi.ref('password'),
     phoneNo: Joi.number(),
+    stack: Joi.string(),
     squad: Joi.number().min(1),
     status: Joi.string(),
-}).with('password', 'confirmPassword')
+})
 
 //Validate Decadev password update
 const decadevPasswordUpdateSchema = Joi.object({
