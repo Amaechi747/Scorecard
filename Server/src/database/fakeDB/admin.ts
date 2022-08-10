@@ -42,10 +42,12 @@ interface IObjectId extends mongoose.Document{
 const id: IObjectId = Object("62ec43d22d8d489ca5f6c9dd");
 
 
-export const fakeAdmin = new Admin({
+export const fakeAdmin = async () => {
+    
+    return new Admin({
     firstName: "Moses",
     lastName: "Ikenna",
-    email: "moses.amaechi@decagon.dev",
+    email: "benjamin.effiong@decagon.dev",
     password: 1234,
     role: "SL",
     stack: id,
@@ -53,7 +55,33 @@ export const fakeAdmin = new Admin({
     imageUrl: "#",
     squad: [12],
     status: "inactive"
-})
+    })
+}
+
+
+// export const dummyAdmin = new Admin({
+//     firstName: "Moses",
+//     lastName: "Ikenna",
+//     email: "moses.amaechi200@decagon.dev",
+//     password: 1234,
+//     confirmPassword: 1234,
+//     role: "SL",
+//     phoneNo: 1234,
+//     squad: 12,
+//     status: "inactive"
+// })
+
+export const dummyAdmin = {
+    firstName: "Benjamin",
+    lastName: "Effiong",
+    email: "benjamin.effiong@decagon.dev",
+    password: "1234",
+    confirmPassword: "1234",
+    role: "SL",
+    phoneNo: 1234,
+    squad: 12,
+    status: "inactive"
+}
 
 
 
