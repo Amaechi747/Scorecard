@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import mongoose,{Error} from 'mongoose';
 import request from 'supertest';
 import {fakeUser, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/user';
-import { Decadev } from '../models/decadevSchema';
+import Decadev from '../models/decadevSchema';
 import { beforeAll, afterAll, afterEach, beforeEach, describe, it, test, expect} from '@jest/globals';
 import { app } from '../app'
 //import { request } from 'http';

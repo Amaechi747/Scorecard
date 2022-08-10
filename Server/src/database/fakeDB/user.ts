@@ -1,7 +1,7 @@
 import mongoose, {Schema, model} from "mongoose";
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import Stack from '../../models/stackSchema'
-import {Decadev} from '../../models/decadevSchema';
+import Decadev from '../../models/decadevSchema';
 let mongoServer: any = null;
   
 
