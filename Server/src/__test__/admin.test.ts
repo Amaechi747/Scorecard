@@ -183,7 +183,12 @@ describe('viewAll Admin Models', () => {
     
 
 })
-
-
+//test for stack creation by  super admin
+describe('create stack',()=>{
+    it('it should return true when stack is created',async ()=>{
+        const res = await(await request(app).get('/admin/create_stack'))
+        expect(res.status).toBe(200);
+    })
+})
 
 

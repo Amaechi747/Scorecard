@@ -10,7 +10,7 @@ import ADMIN from '../utils/adminCRUD';
 export const viewAllStack = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
     const stacks = await ADMIN.viewAllStack();
     if (stacks) {
-        res.status(200).json(stacks);
+        res.status(200).send({ status: 'success', message: 'Stack retrieved successfully', data: stacks });
         return
     }
 })
@@ -19,7 +19,7 @@ export const addStack = asyncHandler(async function (req: Request, res: Response
     const data = req.body;
     const stack = await ADMIN.addStack(data);
     if (stack) {
-        res.status(201).json(stack);
+        res.status(201).send({ status: 'success', message: 'Stack created successfully', data: stack })
         return
     }
 })
@@ -30,7 +30,7 @@ export const editStack = asyncHandler(async function (req: Request, res: Respons
     const update = req.body;
     const stackToEdit = await ADMIN.editStack(id, update);
     if (stackToEdit) {
-        res.status(201).json(stackToEdit);
+        res.status(201).send({ status: 'success', message: 'Stack updated successfully', data: stackToEdit })
         return
     }
 })
@@ -40,7 +40,7 @@ export const deleteStack = asyncHandler(async function (req: Request, res: Respo
     const { id } = req.params;
     const stackToDelete = await ADMIN.deleteStack(id);
     if (stackToDelete) {
-        res.status(201).json(stackToDelete);
+        res.status(201).send({ status: 'success', message: 'Stack deleted successfully', data: stackToDelete })
         return
     }
 })
