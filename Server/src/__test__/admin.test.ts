@@ -1,17 +1,32 @@
 import mongoose,{Error} from 'mongoose';
+
 import request from 'supertest';
 import app from '../app';
 import {fakeAdmin, dummyAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
+
+
+// import { describe, it } from 'node:test';
+
+import { beforeAll, afterEach, afterAll, test, expect, describe, it, expect } from '@jest/globals'
+
+
+
 import Admin from '../models/adminSchema';
+import { debug } from 'console';
 
 
 
 // Database Connections
 beforeAll(async () => await dbConnect());
 afterAll(async () => await dbDisconnect());
-afterEach( async () => await dropCollections)
+afterEach(async () => await dropCollections)
+
+
 
 describe('Create Admin Model Operations', ()=>{
+
+
+
     it('Should create an new Admin', async () => {
         const fakePerson = await fakeAdmin();
         await fakePerson.save();
@@ -96,6 +111,7 @@ describe('Create Admin Model Operations', ()=>{
             expect( error).toBeNull();
 
         }
+
     })
   
 })
@@ -175,3 +191,21 @@ describe('Create Admin Endpoints', () => {
     // })
 
 })
+
+
+
+
+
+describe('viewAll Admin Models', () => {
+    it('it should display all Admins when returned true', async () => {
+         const res = await (await request(app).get('/admin'))
+            expect(res.status).toBe(200);
+
+    })
+    
+
+})
+
+
+
+

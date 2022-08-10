@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction} from 'express';
-import { createDecadevSchema, Decadev} from "../models/decadevSchema";
 import { DECADEV } from '../utils/decadevCRUD';
 import asyncHandler from "express-async-handler";
 
@@ -36,6 +35,7 @@ export const deleteDecadev  = asyncHandler(async(req: Request, res: Response, ne
         res.status(201).send("Decadev account deleted successfully");
         return;
     }
+    return;
 })
 
 export const activateDecadev = asyncHandler(async(req: Request, res: Response, next: NextFunction) => {
@@ -63,6 +63,15 @@ export const deactivateDecadev = asyncHandler(async(req: Request, res: Response,
     const deactivated = await DECADEV.deactivate(id);
     if(deactivated){
         res.status(200).send("Decadev account deactivated");
+        return;
+    }
+})
+
+export const addScoreForDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction)=>{
+    const {id} = req.params;
+    const addedScore = await DECADEV.addScore(id, req.body);
+    if(addedScore){
+        res.status(200).send(addedScore);
         return;
     }
 })
