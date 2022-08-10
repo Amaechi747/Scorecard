@@ -1,11 +1,13 @@
-import { exec } from 'child_process';
 import mongoose,{Error} from 'mongoose';
+
 // import { describe, it } from 'node:test';
 import application from "../app";
-import { beforeAll, afterEach, afterAll, describe, it, expect } from '@jest/globals'
+import { beforeAll, afterEach, afterAll, test, expect, describe, it, expect } from '@jest/globals'
 import request from 'supertest';
+
 import {fakeAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
 import Admin from '../models/adminSchema';
+import { debug } from 'console';
 
 
 
@@ -29,6 +31,7 @@ describe('Create Admin Models', () => {
             firstName: "Moses",
             password: 1234,
         }
+
         const newAdmin = new Admin({ ...fake });
         try {
             await newAdmin.save()
@@ -57,4 +60,5 @@ describe('viewAll Admin Models', () => {
 function app(app: any) {
     throw new Error('Function not implemented.');
 }
+
 

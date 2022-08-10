@@ -24,7 +24,6 @@ const db = process.env.dbURI
           const isConnected = await mongoose.connect(db);
           if(isConnected){
             debug("DB is connected")
-            console.log('DB connected')
           }
       }
     }catch(err){
