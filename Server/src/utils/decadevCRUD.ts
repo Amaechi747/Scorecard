@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { emailService } from "../services/mailer";
 import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
 import { ObjectId } from 'mongoose';
+import Stack from '../models/stackSchema';
 // import Stack from '../models/stackSchema';
 // import { deactivateAdmin } from "../controllers/adminController";
 
@@ -24,7 +25,11 @@ export const DECADEV = {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
 
-            const newDecadev = new Decadev({...data, password: hashedPassword});
+
+            const stackId = await this.getOneStack(stack);
+
+
+            const newDecadev = new Decadev({...data, password: hashedPassword, stack: stackId});
             newDecadev.validateSync();
             const decadev = newDecadev.save();
 
@@ -56,7 +61,13 @@ export const DECADEV = {
             //Set filter variable
             const filter = {_id: id};
             //Update
-            const updatedDecadev = Decadev.findOneAndUpdate(filter, update, {new: true});
+            const {password, stack} = update;
+            let stackId;
+            if(stack){
+                stackId = await this.getOneStack(stack);
+            };
+
+            const updatedDecadev = Decadev.findOneAndUpdate(filter, {...update, stack: stackId}, {new: true});
             if(updatedDecadev){
                 return updatedDecadev;
             }
@@ -148,5 +159,23 @@ export const DECADEV = {
             throw new Error(`${error}`)
         }
         return;
-    }
+    },
+
+    //Get a Stack
+    async getOneStack(str: string){
+        try{
+            const filter = {name: str};
+            const stack = await Stack.findOne(filter);
+            if(stack){
+                return stack._id;
+            }
+        }catch(error){
+            throw new Error(`${error}`);
+        }
+    },
+
+    // let stackId;
+    //         if(stack){
+    //             stackId = await this.getOneStack(stack);
+    //         }
 }
