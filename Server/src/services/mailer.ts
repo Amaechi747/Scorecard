@@ -4,6 +4,7 @@ import {google} from 'googleapis';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { urlencoded } from 'express';
 import SMTPPool from 'nodemailer/lib/smtp-pool';
+import { error } from 'node:console';
 const OAuth2 = google.auth.OAuth2;
 
 const myOAuth2Client = new OAuth2(
@@ -44,8 +45,8 @@ export const emailService = function(emailAddress: unknown, subject: string, tex
         }
         transporter.sendMail(message, (err , data )=>{
             if (err) {
-                throw new Error("Error occured while sending email")
-            }else{
+              throw new Error("Error occured while sending email")
+            } else {
                 return 'Email successfully sent';
             }
         })

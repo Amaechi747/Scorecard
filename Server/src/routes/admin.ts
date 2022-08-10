@@ -31,6 +31,8 @@ const router = express.Router();
 
 /* Create Admin */
 router.get('/',getAdmin);
+
+router.get('/', createAdmin);
 router.post('/create_user', validateAdminDetails, createAdmin);
 
 /* Update Admin */
