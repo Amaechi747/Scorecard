@@ -41,7 +41,7 @@ const ADMIN = {
     async getAdmin (id: string) {
         try {
             // use id to get data from db
-            const admin = await Admin.findById(id, { password: 0 });
+            const admin = await Admin.findById(id, { password: 0 }).populate('stack');
             if(admin) {
                 return admin;
             } else {
@@ -70,20 +70,26 @@ const ADMIN = {
         }
     },
 
-    async changeAdminPassword (id: string, newPass: string, oldPass: string) {
+    async changeAdminPassword (id: string, newPass: string, 
+        // oldPass: string
+        ) {
         try {
             const admin = await Admin.findOne({ _id: id })
-            const match = await bcrypt.compare(oldPass, <string>admin?.password);
-            if (admin && match) {
-                // Hash new Password
-                if(oldPass === newPass)
+            const match = await bcrypt.compare(newPass, <string>admin?.password);
+            if (admin) {
+                if(!match){
+                    // Hash new Password
+                    // if(oldPass === newPass)
+                    const salt = await bcrypt.genSalt(10);
+                    const hashedPassword = await bcrypt.hash(newPass, salt);
+                    admin.password = hashedPassword;
+                    return await admin.save()
+                } else {
                     throw new Error("New password may not be the same as previous password");
-                const salt = await bcrypt.genSalt(10);
-                const hashedPassword = await bcrypt.hash(newPass, salt);
-                admin.password = hashedPassword;
-                return await admin.save()
+                    // throw new Error("Current password is wrong");
+                }
             } else {
-                throw new Error("Current password is wrong");
+                throw new Error("Admin Not found");
             }
         } catch (error: unknown) {
             throw new Error(`${error}`);

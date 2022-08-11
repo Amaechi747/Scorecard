@@ -1,18 +1,10 @@
 import mongoose,{Error} from 'mongoose';
-
 import request from 'supertest';
 import app from '../app';
 import {fakeAdmin, dummyAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
-
-
-// import { describe, it } from 'node:test';
-
 import { beforeAll, afterEach, beforeEach, afterAll, test, describe, it, expect } from '@jest/globals'
-
-
-
 import Admin from '../models/adminSchema';
-import { debug } from 'console';
+import { adminFakePasswordUpdate } from '../database/fakeDB/admin';
 
 
 
@@ -22,16 +14,13 @@ afterAll(async () => await dbDisconnect());
 afterEach(async () => await dropCollections)
 
 
-
-describe('Create Admin Model Operations', ()=>{
-
-
-
+describe('Create Admin Models', ()=>{
+    let fakePerson: any;
     it('Should create an new Admin', async () => {
-        const fakePerson = await fakeAdmin();
-        await fakePerson.save();
-        expect(fakePerson._id).toBeDefined();
-        expect(fakePerson.email).toBeDefined();
+        fakePerson = await fakeAdmin();
+        await fakePerson.save()
+        expect(fakePerson?._id).toBeDefined();
+        expect(fakePerson?.email).toBeDefined();
     })
 
     it('Should fail without the required fields', async () => {
@@ -119,11 +108,12 @@ describe('Create Admin Model Operations', ()=>{
 describe('Create Admin Endpoints', () => {
 
     let id: any;
+    let admin: any;
     beforeEach(async () => {
         const fakePerson = await fakeAdmin();
         await fakePerson.save();
 
-        const admin = await Admin.findOne();
+        admin = await Admin.findOne();
         id = admin?._id;
 
     })
@@ -170,7 +160,6 @@ describe('Create Admin Endpoints', () => {
         const res = await  request(app).patch(`/admin/deactivate/${id}`)
         expect (res.status).toBe(201);
     })
-
     // it('It should access the verify admin endpoint', async () => {
     //     const res = await  request(app).get('/admin/verify')
     //     expect (res.status).not.toBe(404);
@@ -179,24 +168,76 @@ describe('Create Admin Endpoints', () => {
 })
 
 
+describe('Tests by Leslie', function (){
+    
+
+    let id: any;
+    let admin: any;
+    beforeEach(async () => {
+        const fakePerson = await fakeAdmin();
+        await fakePerson.save();
+
+        admin = await Admin.findOne();
+        id = admin?._id;
+
+    })
+
+    afterEach(async () => {
+        console.log(id);
+        const admin = await Admin.findOneAndDelete({id});
+        console.log('deleted');
+    })
+
+    it('Should return the admin\'s profile', async function (){
+        const {password, stack, ...result} = JSON.parse(JSON.stringify(admin));
+        const response: any = await request(app)
+            .get(`/admin/profile/${admin?._id}`)
+
+        expect(response.status).toBe(200);
+        const assertResponse = JSON.parse(response.text);
+        expect(assertResponse).toEqual(expect.objectContaining(result));
+        expect(assertResponse.stack).toBeNull();
+    })
+
+    it('Should change admin\'s password', async function(){
+        const response: any = await request(app)
+            .put(`/admin/update_password/${admin?._id}`)
+            .send(adminFakePasswordUpdate());
+        expect(response.status).toBe(200);
+        expect(JSON.parse(response.text)).toEqual(expect.objectContaining({status: 'Success'}));
+
+    })
+
+    it('Should upload an image to admin\'s profile', async () => {
+        const response: any = await request(app)
+            .put(`/admin/upload/${admin?._id}`)
+            .attach('image', `${__dirname}/fixtures/websiteplanet-dummy-150X150.png`)
+        expect(response.status).toBe(200);
+        expect(response.text).toMatch(/^https:\/\/res.cloudinary.com/);
+    })
+})
+
 
 
 
 describe('viewAll Admin Models', () => {
     it('it should display all Admins when returned true', async () => {
-         const res = await (await request(app).get('/admin'))
+         const res = await request(app).get('/admin')
             expect(res.status).toBe(200);
 
     })
-    
-
 })
 //test for stack creation by  super admin
-describe('create stack',()=>{
-    it('it should return true when stack is created',async ()=>{
-        const res = await(await request(app).get('/admin/create_stack'))
-        expect(res.status).toBe(200);
-    })
-})
+// describe('create stack',()=>{
+//     it('it should return true when stack is created',async ()=>{
+//         const res = await request(app)
+//                         .post('/admin/create_stack')
+//                         .send({ name: 'c#', imageUrl: 'http://example.com' })
+//         expect(res.status).toBe(200);
+//     })
+
+// })
+
+
 
 

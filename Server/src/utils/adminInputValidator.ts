@@ -44,9 +44,9 @@ const adminSchema = Joi.object({
 
 // Validate Admin password update input
 const adminPasswordUpdateSchema = Joi.object({
-    password: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
-        .required(),
+    // password: Joi.string()
+    //     .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+    //     .required(),
     newPassword: Joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
         .required(),
