@@ -33,7 +33,7 @@ export const createAdmin = asyncHandler( async function(req: Request, res: Respo
         const data: IAdmin = req.body;
         const admin = await ADMIN.create(data)
         if (admin){
-            res.status(200).json(admin);
+            res.status(200).send(admin);
             return;
         }
  
@@ -103,8 +103,12 @@ export const deleteAdmin = asyncHandler( async function(req: Request, res: Respo
 })
 
 export const updateAdminPassword = asyncHandler( async function (req:Request, res: Response) {
-    const { password: oldPass, newPassword: newPass } = req.body;
-    const result = await ADMIN.changeAdminPassword(req.params.id, newPass, oldPass);
+    const { 
+        // password: oldPass, 
+        newPassword: newPass } = req.body;
+    const result = await ADMIN.changeAdminPassword(req.params.id, newPass,
+        //  oldPass
+         );
     if (result) {
         res.send({status: 'Success', message: 'Password has been updated'});
     }
