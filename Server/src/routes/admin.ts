@@ -26,6 +26,7 @@ import {
   getAdminProfile,
   addNewImage,
   updateAdminPassword,
+  filterScores
 } from "../controllers/adminController";
 
 import {
@@ -103,7 +104,10 @@ router.put(
 router.put("/upload/:id", parser.single("image"), addNewImage);
 
 ///////////////////
-/* Add Scores */
+/* Add Scores using the user id */
 router.put("/add_score/:id", validateScoreInput, addScoreForDecadev);
+
+/* Filter score */
+router.get("/filter_score/:id", filterScores)
 
 export default router;

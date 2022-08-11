@@ -41,7 +41,7 @@ const ADMIN = {
     async getAdmin (id: string) {
         try {
             // use id to get data from db
-            const admin = await Admin.findById(id, { password: 0 });
+            const admin = await Admin.findById(id, { password: 0 }).populate('stack');
             if(admin) {
                 return admin;
             } else {
