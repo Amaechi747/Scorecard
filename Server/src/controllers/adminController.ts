@@ -33,7 +33,7 @@ export const createAdmin = asyncHandler( async function(req: Request, res: Respo
         const data: IAdmin = req.body;
         const admin = await ADMIN.create(data)
         if (admin){
-            res.status(200).send(admin);
+            res.status(201).send(admin);
             return;
         }
  
@@ -97,7 +97,7 @@ export const deleteAdmin = asyncHandler( async function(req: Request, res: Respo
     const {id} = req.params;
     const deleted = await ADMIN.delete(id);
     if(deleted){
-        res.status(201).send(deleted);
+        res.status(204).send(deleted);
         return;
     }
 })

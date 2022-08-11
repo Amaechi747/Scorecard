@@ -46,24 +46,64 @@ export const adminFakePasswordUpdate = () => { return {
         confirmPassword: '0000'
     }
 }
+// export const fakeAdmin = async () => {
+//     // Stack placeholder
+//     const doc = await Stack.findOne({}, { _id: 1 });
+    
+//     return new Admin({
+//         firstName: "Moses",
+//         lastName: "Ikenna",
+//         email: "moses.amaechi@decagon.dev",
+//         password: "1234",
+//         role: "SL",
+//         stack: doc?._id,
+//         phoneNo: 1234,
+//         imageUrl: "#",
+//         squad: [12],
+//         status: "inactive"
+//     })
+// }
+
 export const fakeAdmin = async () => {
-    // Stack placeholder
-    const doc = await Stack.findOne({}, { _id: 1 });
     
     return new Admin({
-        firstName: "Moses",
-        lastName: "Ikenna",
-        email: "moses.amaechi@decagon.dev",
-        password: "1234",
-        role: "SL",
-        stack: doc?._id,
-        phoneNo: 1234,
-        imageUrl: "#",
-        squad: [12],
-        status: "inactive"
+    firstName: "Moses",
+    lastName: "Ikenna",
+    email: "benjamin.effiong@decagon.dev",
+    password: 1234,
+    role: "SL",
+    stack: id,
+    phoneNo: 1234,
+    imageUrl: "#",
+    squad: [12],
+    status: "inactive"
     })
 }
 
+
+// export const dummyAdmin = new Admin({
+//     firstName: "Moses",
+//     lastName: "Ikenna",
+//     email: "moses.amaechi200@decagon.dev",
+//     password: 1234,
+//     confirmPassword: 1234,
+//     role: "SL",
+//     phoneNo: 1234,
+//     squad: 12,
+//     status: "inactive"
+// })
+
+export const dummyAdmin = {
+    firstName: "Benjamin",
+    lastName: "Effiong",
+    email: "benjamin.effiong@decagon.dev",
+    password: "1234",
+    confirmPassword: "1234",
+    role: "SL",
+    phoneNo: 1234,
+    squad: 12,
+    status: "inactive"
+}
 
 
 
