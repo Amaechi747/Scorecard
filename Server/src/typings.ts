@@ -61,6 +61,7 @@ interface IWeeklyScore {
 
 interface IStack {
     name: string;
+    
     imageUrl: string;
     _id: string;
 }

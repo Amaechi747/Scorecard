@@ -3,7 +3,8 @@ import ADMIN from "../utils/adminCRUD";
 import { Request, Response, NextFunction } from "express";
 import asyncHandler from "express-async-handler";
 import getWeeklyScores from "../utils/filterScores";
-const debug = require('debug')('live-project-scorecard-sq011a:server');
+import searchScoresByDecadevsName from "../utils/searchScoresByDecadevsName";
+const debug = require("debug")("live-project-scorecard-sq011a:server");
 
 export const getAdminProfile = asyncHandler(async function (
   req: Request,
@@ -152,18 +153,39 @@ export const filterScores = asyncHandler(async function (
   const { id } = req.params;
   const { week } = req.query;
   const admin = await ADMIN.getAdmin(id);
-  debug('Admin: ', admin)
-  const {name} = <IStack>admin.stack;
-  debug('Name: ', name)
-    if (admin && name) {
-        if (week) {
-            debug('week: ',+week)
-            const scores = await getWeeklyScores(name, +week);
-            res.status(200).send(scores);
-        } else {
-            throw new Error("No week specified");
-        }
-        return;
+  debug("Admin: ", admin);
+  const { name } = <IStack>admin.stack;
+  debug("Name: ", name);
+  if (admin && name) {
+    if (week) {
+      debug("week: ", +week);
+      const scores = await getWeeklyScores(name, +week);
+      res.status(200).send(scores);
+    } else {
+      throw new Error("No week specified");
     }
-    throw new Error("No admin found");
+    return;
+  }
+  throw new Error("No admin found");
+});
+
+export const searchScores = asyncHandler(async function (
+  req: Request,
+  res: Response
+) {
+  const { id } = req.params;
+  const { searchText } = req.query;
+  const admin = await ADMIN.getAdmin(id);
+  const { name } = <IStack>admin.stack;
+  if (admin && name) {
+    
+    if (searchText) {
+      const scores = await searchScoresByDecadevsName(name, <string>searchText);
+      res.status(200).send(scores);
+    } else {
+      throw new Error("No search text found");
+    }
+    return;
+  }
+  throw new Error("No admin found");
 });
