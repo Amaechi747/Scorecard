@@ -21,7 +21,7 @@ export const addNewImage = asyncHandler( async function (req: Request, res: Resp
 
         const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
         if(newImageUrl) {
-            res.status(200).send(newImageUrl);
+            res.status(200).send({ status: 'success', imageUrl: newImageUrl});
             return;
         }
     }
