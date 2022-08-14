@@ -24,7 +24,52 @@ export const addNewImage = asyncHandler(async function (
 ) {
   if (req.file) {
     const adminId = req.params.id;
-    // console.log('Path: ',req.file.path, '\n');
+
+    const admin = await ADMIN.getAdmin(adminId);
+    if(admin) {
+        res.status(200).json(admin);
+    }
+
+} )
+
+export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
+    if (req.file) {
+        const adminId = req.params.id;
+        // console.log('Path: ',req.file.path, '\n');
+
+        const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
+        if(newImageUrl) {
+            res.status(200).send({ status: 'success', imageUrl: newImageUrl});
+            return;
+        }
+    }
+} )
+
+
+export const createAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+        // Create admin
+        const data: IAdmin = req.body;
+        const admin = await ADMIN.create(data)
+        if (admin){
+            res.status(201).send(admin);
+            return;
+        }
+ 
+})
+
+export const editAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} = req.params;
+    const update: IAdminUpdate = req.body;
+    // Update details
+    const updatedAdminData = await ADMIN.edit(id, update)
+    //Send updated data
+    if(updatedAdminData){
+        res.status(201).send(updatedAdminData);
+        return;
+    }
+
+})
+
 
     const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
     if (newImageUrl) {
@@ -164,6 +209,7 @@ export const filterScores = asyncHandler(async function (
     } else {
       throw new Error("No week specified");
     }
+
     return;
   }
   throw new Error("No admin found");
@@ -184,6 +230,19 @@ export const searchScores = asyncHandler(async function (
       res.status(200).send(scores);
     } else {
       throw new Error("No search text found");
+
+})
+
+export const updateAdminPassword = asyncHandler( async function (req:Request, res: Response) {
+    const { 
+        // password: oldPass, 
+        newPassword: newPass } = req.body;
+    const result = await ADMIN.changeAdminPassword(req.params.id, newPass,
+        //  oldPass
+         );
+    if (result) {
+        res.send({status: 'Success', message: 'Password has been updated'});
+
     }
     return;
   }

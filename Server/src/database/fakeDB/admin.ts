@@ -38,9 +38,31 @@ export const dropCollections = async function(){
 interface IObjectId extends mongoose.Document{
     id: Schema.Types.ObjectId
 }
-// Stack placeholder
 const id: IObjectId = Object("62ec43d22d8d489ca5f6c9dd");
 
+export const adminFakePasswordUpdate = () => { return {
+        // password: "1234",
+        newPassword: '0000',
+        confirmPassword: '0000'
+    }
+}
+// export const fakeAdmin = async () => {
+//     // Stack placeholder
+//     const doc = await Stack.findOne({}, { _id: 1 });
+    
+//     return new Admin({
+//         firstName: "Moses",
+//         lastName: "Ikenna",
+//         email: "moses.amaechi@decagon.dev",
+//         password: "1234",
+//         role: "SL",
+//         stack: doc?._id,
+//         phoneNo: 1234,
+//         imageUrl: "#",
+//         squad: [12],
+//         status: "inactive"
+//     })
+// }
 
 export const fakeAdmin = async () => {
     
