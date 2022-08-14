@@ -40,11 +40,10 @@ interface IObjectId extends mongoose.Document{
 }
 const id: IObjectId = Object("62ec43d22d8d489ca5f6c9dd");
 
-export const adminFakePasswordUpdate = () => { return {
-        // password: "1234",
-        newPassword: '0000',
-        confirmPassword: '0000'
-    }
+export const adminFakePasswordUpdate = {
+    // password: "1234",
+    newPassword: '0000',
+    confirmPassword: '0000'
 }
 // export const fakeAdmin = async () => {
 //     // Stack placeholder

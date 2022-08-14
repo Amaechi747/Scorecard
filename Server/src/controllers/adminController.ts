@@ -11,7 +11,6 @@ export const getAdminProfile = asyncHandler( async function (req:Request, res: R
     if(admin) {
         res.status(200).json(admin);
     }
-
 } )
 
 export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
@@ -110,6 +109,6 @@ export const updateAdminPassword = asyncHandler( async function (req:Request, re
         //  oldPass
          );
     if (result) {
-        res.send({status: 'Success', message: 'Password has been updated'});
+        res.send({status: 'success', message: 'Password has been updated'});
     }
 } )

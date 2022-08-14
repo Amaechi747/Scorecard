@@ -1,9 +1,9 @@
 import Decadev from "../models/decadevSchema";
-import bcrypt from 'bcryptjs';
+import bcrypt, { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { emailService } from "../services/mailer";
 import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
-import { ObjectId } from 'mongoose';
+import { LeanDocument, ObjectId } from 'mongoose';
 import Stack from '../models/stackSchema';
 // import Stack from '../models/stackSchema';
 // import { deactivateAdmin } from "../controllers/adminController";
@@ -23,10 +23,10 @@ export const DECADEV = {
             //Save decadev
             //Hash Password
             const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+            const hashedPassword = await bcrypt.hash(<string>password, salt);
 
 
-            const stackId = await this.getOneStack(stack);
+            const stackId = await this.getOneStack(<string>stack);
 
 
             const newDecadev = new Decadev({...data, password: hashedPassword, stack: stackId});
@@ -41,6 +41,22 @@ export const DECADEV = {
         }
     },
     
+    async updatePassword(id: string, password: string) {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            
+            const update = { $set: { password: hashedPassword } };
+            // const result = await Decadev.updateOne(filter, update)
+
+            const updatedDecadev = await Decadev.findByIdAndUpdate(id, update, { new: true });
+            if(updatedDecadev) {
+                return updatedDecadev;
+            }
+        } catch (error) {
+            throw new Error(`${error}`)
+        }
+    },
     // async getDecadev(id: string){
     //     try{
     //         //use id to get data from db
@@ -61,13 +77,13 @@ export const DECADEV = {
             //Set filter variable
             const filter = {_id: id};
             //Update
-            const {password, stack} = update;
+            const {password, stack, ...data} = update;
             let stackId;
             if(stack){
                 stackId = await this.getOneStack(stack);
             };
 
-            const updatedDecadev = Decadev.findOneAndUpdate(filter, {...update, stack: stackId}, {new: true});
+            const updatedDecadev = Decadev.findOneAndUpdate(filter, { ...data, stack: stackId }, { new: true });
             if(updatedDecadev){
                 return updatedDecadev;
             }
@@ -152,7 +168,7 @@ export const DECADEV = {
             const { assessment, agileTest, algorithm, weeklyTask} = data;
             data.cummulative = (assessment * 0.2) + (algorithm * 0.2) + (agileTest * 0.2) + (weeklyTask * 0.4)
             if(id) {
-                const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true }).exec();
+                const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true });
                 return decadevScore;
             }
         } catch (error) {
@@ -172,10 +188,74 @@ export const DECADEV = {
         }catch(error){
             throw new Error(`${error}`);
         }
+        return;
     },
 
-    // let stackId;
-    //         if(stack){
-    //             stackId = await this.getOneStack(stack);
-    //         }
+    async sendPasswordResetLink(decadev: LeanDocument<Partial<IDecadev>>) {
+        try{
+            if(decadev){
+                let {email, firstName, lastName, _id} = decadev;
+                const token = jwt.sign({ id: _id }, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
+                const url = `${process.env.BASE_URL}/users/reset_password?token=${token}`;
+                //Send email to decadev
+                const subject = `Scorecard password Reset`
+                const message = `<div style="
+                    width: 100%;
+                    height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                    background-color: white;
+                    text-align: center;
+                    margin: 1rem;
+                ">
+                    <h1 style="
+                        color: darkblue;
+                        font-size: 1.9rem;
+                        font-weight: 700;
+                        height: 1fr;
+                        padding: 0 3rem 1rem;
+                        border-bottom: 1.3px solid gray;
+                    ">Score Card</h1>
+                    <div style="
+                        height: 3fr;
+                        flex-basis: 27rem;
+                        padding: 0 3rem;
+                    ">
+                        <p style="
+                            padding: 2rem;
+                            text-align: justify;
+                            font-size: 0.9rem;
+                            color: gray;
+                            line-height: 2rem;
+                        ">
+                            <p>Hello ${firstName},</p>
+                            <p>Click to reset your password on the decadev Scorecard <a href="http://${url}"> click here</a>.</p>
+                            <p style="text-align: center; color: #ff000080;">Link expires in 24hrs</p>
+                        </p>
+                    </div>
+                    <h3 style="
+                        padding: 0 3rem;
+                        color: darkslategrey;
+                        height: 1fr;
+                    ">&copy; Group 3</h3>
+                </div>`
+            
+                await emailService(email, subject, message, `${firstName} ${lastName}`);
+                return decadev;
+            }
+        } catch (error){
+            throw new Error(`${error}`);
+        }
+    },
+
+    async decadevExists(query: Partial<IDecadev>) {
+        const decadev = await Decadev.findOne(query);
+        if(decadev) {
+            return decadev.toObject();
+        }
+        return null;
+    }
+
 }

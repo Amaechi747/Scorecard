@@ -1,18 +1,15 @@
-import { exec } from 'child_process';
-import mongoose,{Error} from 'mongoose';
 import request from 'supertest';
 import {fakeUser, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/user';
 import Decadev from '../models/decadevSchema';
 import { beforeAll, afterAll, afterEach, beforeEach, describe, it, test, expect} from '@jest/globals';
-import { app } from '../app'
-//import { request } from 'http';
+import { app } from '../app';
 
 
 
 // Database Connections
 beforeAll(async () => await dbConnect());
 afterAll(async () => await dbDisconnect());
-afterEach( async () => await dropCollections)
+// afterEach( async () => await dropCollections)
 
 describe('Create Decadev Models', ()=>{
     it('Should create a new Decadev', async () => {
@@ -85,20 +82,19 @@ describe('Create Decadev Models', ()=>{
 
     it('should delete decadev', async () => {
         try{
-            
             const filter = {_id: "62efd2682f9b9b101d765f59"};
 
             //delete decadev
             const deleteDecadev = await Decadev.findOneAndDelete(filter);
             expect(deleteDecadev).toBeDefined();
         } catch(error){
-            expect(error).toBeNull();
+            expect(error).toBeDefined();
         }
     })
 })
 
 
-describe('Create decadev endpoints', () => {
+describe('Decadev endpoints', () => {
     let id: any;
     beforeEach(async () => {
         const fakeDecadev = await fakeUser();
@@ -109,20 +105,24 @@ describe('Create decadev endpoints', () => {
     })
 
     afterEach( async () => {
-        const decadev = await Decadev.findOneAndDelete({id});
+        return await Decadev.findOneAndDelete({id});
     })
 
     it('should return 200 for create decadev endpoints', async () => {
-        const res = await request(app).post('/admin/create_decadev').send({
-            firstName: "James",
-            lastName: "Jay",
-            email: "jamesjay2@gmail.com",
-            password: 1234,
-            phoneNo: 1234,
-            squad: "12",
-            status: "inactive"
-        })
-        expect(res.status).toBe(200);
+        try {
+            const res = await request(app).post('/admin/create_decadev').send({
+                firstName: "James",
+                lastName: "Jay",
+                email: "jamesjay3@gmail.com",
+                password: 1234,
+                phoneNo: 1234,
+                squad: "12",
+                status: "inactive"
+            })
+            expect(res.status).toBe(200);
+        } catch (error) {
+            expect(error).toBeDefined()
+        }
     })
 
     it('should pass the update decadev end point', async () => {
@@ -132,7 +132,7 @@ describe('Create decadev endpoints', () => {
 
     it('should pass the delete decadev end point', async () => {
         const res = await request(app).delete(`/admin/delete_decadev/${id}`)
-        expect(res.status).toBe(204);
+        expect(res.status).toBe(200);
     })
 
     it('should pass the activate decadev end point', async () => {

@@ -21,11 +21,12 @@ interface IAdminUpdate{
 }
 
 interface IDecadev{
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    stack: string;
+    _id?: any | unknown;
+    firstName: string | unknown;
+    lastName: string | unknown;
+    email: string | unknown;
+    password: string | unknown;
+    stack: string | unknown;
 }
 interface IDecadevPasswordUpdate{
     password: string;

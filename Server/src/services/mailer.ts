@@ -1,10 +1,8 @@
 import nodemailer from 'nodemailer';
-import asyncHandler from 'express-async-handler';
 import {google} from 'googleapis';
-import SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { urlencoded } from 'express';
-import SMTPPool from 'nodemailer/lib/smtp-pool';
-import { error } from 'node:console';
+const debug = require('debug')('live-project-scorecard-sq011a:server');
+
+
 const OAuth2 = google.auth.OAuth2;
 
 const myOAuth2Client = new OAuth2(
@@ -33,20 +31,22 @@ const transporter = nodemailer.createTransport({
 
 
 
-export const emailService = function(emailAddress: unknown, subject: string, text: string){
+export const emailService = function(emailAddress: unknown, subject: string, text: string,  name='Decagon Edo Tech Park'){
     try{
         // const text = `<p>Click to be verified as an admin <a href=" http://${ url }"> click here </a>.</p>`
         const message = {
             from: 'Decagon Edo Tech Park <daamsexchange@gmail.com>',
-            to: `Decagon Edo Tech Park <${emailAddress}>`,
+            to: `${name} <${emailAddress}>`,
             subject: subject,
             text: 'For clients with plaintext support only',
             html: text,
         }
         transporter.sendMail(message, (err , data )=>{
             if (err) {
-              throw new Error("Error occured while sending email")
+                debug('Mail Service Error:\n', err);
+                throw new Error(`Error occured while sending email`)
             } else {
+                debug('Mail Service Response:\n', data?.response);
                 return 'Email successfully sent';
             }
         })
