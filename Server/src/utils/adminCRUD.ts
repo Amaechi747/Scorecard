@@ -4,8 +4,6 @@ import jwt from 'jsonwebtoken';
 import { emailService } from '../services/mailer';
 import Stack from '../models/stackSchema';
 
-
-
 const ADMIN = {
     // Error.prototype.status = 403;
     async createAdmin(data: IAdmin){
