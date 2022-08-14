@@ -58,3 +58,10 @@ interface IWeeklyScore {
     assessment: number;
     cummulative?: number;
 }
+
+interface IStack {
+    name: string;
+    
+    imageUrl: string;
+    _id: string;
+}
