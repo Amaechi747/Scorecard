@@ -1,4 +1,5 @@
 interface IAdmin{
+    _id?: any | unknown;
     firstName: string;
     lastName: string;
     email: string;
@@ -7,7 +8,6 @@ interface IAdmin{
     stack: string;
 }
 interface IAdminPasswordUpdate {
-    password: string;
     newPassword: string;
     confirmPassword: string;
 }
@@ -28,8 +28,7 @@ interface IDecadev{
     password: string | unknown;
     stack: string | unknown;
 }
-interface IDecadevPasswordUpdate{
-    password: string;
+interface IPasswordUpdate{
     newPassword: string;
     confirmPassword: string;
 }
@@ -62,7 +61,6 @@ interface IWeeklyScore {
 
 interface IStack {
     name: string;
-    
     imageUrl: string;
     _id: string;
 }

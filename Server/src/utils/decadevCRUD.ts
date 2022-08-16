@@ -5,6 +5,7 @@ import { emailService } from "../services/mailer";
 import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
 import { LeanDocument, ObjectId } from 'mongoose';
 import Stack from '../models/stackSchema';
+import message from './emailTemplate'
 // import Stack from '../models/stackSchema';
 // import { deactivateAdmin } from "../controllers/adminController";
 
@@ -114,15 +115,17 @@ export const DECADEV = {
             //search for decadev in database
             const decadev = await Decadev.findOne(filter);
             if(decadev){
-                let {email, status, id} = decadev;
+                let {email, status, id, firstName, lastName} = decadev;
                 //Change Status
                 status = "active";
                 const token = jwt.sign({status, id}, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
                 const url = `${process.env.BASE_URL}/users/verify?token=${token}`;
+                const subject = 'Latest Decadev';
                 //Send email to decadev
-                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>
-                <p style="text-align: center;">Link expires in 24hrs</p>`;
-                await emailService(email, url, text);
+                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>`;
+                const mail = message(<string>firstName, text);
+
+                await emailService(email, subject, mail, `${firstName} ${lastName}`);
                 return decadev;
             }
         } catch (error){
@@ -190,72 +193,5 @@ export const DECADEV = {
         }
         return;
     },
-
-    async sendPasswordResetLink(decadev: LeanDocument<Partial<IDecadev>>) {
-        try{
-            if(decadev){
-                let {email, firstName, lastName, _id} = decadev;
-                const token = jwt.sign({ id: _id }, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
-                const url = `${process.env.BASE_URL}/users/reset_password?token=${token}`;
-                //Send email to decadev
-                const subject = `Scorecard password Reset`
-                const message = `<div style="
-                    width: 100%;
-                    height: 100vh;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-around;
-                    align-items: center;
-                    background-color: white;
-                    text-align: center;
-                    margin: 1rem;
-                ">
-                    <h1 style="
-                        color: darkblue;
-                        font-size: 1.9rem;
-                        font-weight: 700;
-                        height: 1fr;
-                        padding: 0 3rem 1rem;
-                        border-bottom: 1.3px solid gray;
-                    ">Score Card</h1>
-                    <div style="
-                        height: 3fr;
-                        flex-basis: 27rem;
-                        padding: 0 3rem;
-                    ">
-                        <p style="
-                            padding: 2rem;
-                            text-align: justify;
-                            font-size: 0.9rem;
-                            color: gray;
-                            line-height: 2rem;
-                        ">
-                            <p>Hello ${firstName},</p>
-                            <p>Click to reset your password on the decadev Scorecard <a href="http://${url}"> click here</a>.</p>
-                            <p style="text-align: center; color: #ff000080;">Link expires in 24hrs</p>
-                        </p>
-                    </div>
-                    <h3 style="
-                        padding: 0 3rem;
-                        color: darkslategrey;
-                        height: 1fr;
-                    ">&copy; Group 3</h3>
-                </div>`
-            
-                await emailService(email, subject, message, `${firstName} ${lastName}`);
-                return decadev;
-            }
-        } catch (error){
-            throw new Error(`${error}`);
-        }
-    },
-
-    async decadevExists(query: Partial<IDecadev>) {
-        const decadev = await Decadev.findOne(query);
-        if(decadev) {
-            return decadev.toObject();
-        }
-        return null;
-    }
 
 }

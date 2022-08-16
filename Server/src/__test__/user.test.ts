@@ -121,7 +121,9 @@ describe('Decadev endpoints', () => {
             })
             expect(res.status).toBe(200);
         } catch (error) {
-            expect(error).toBeDefined()
+            const { name, code }: any = error;
+            console.log('Error name: ', name, '\nCode: ', code);
+            // expect(error).toBeDefined()
         }
     })
 

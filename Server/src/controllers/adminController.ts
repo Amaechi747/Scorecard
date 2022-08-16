@@ -133,10 +133,10 @@ export const filterScores = asyncHandler(async function (
   const { id } = req.params;
   const { week } = req.query;
   const admin = await ADMIN.getAdmin(id);
-  const { name } = <IStack>admin.stack;
-  if (admin && name) {
-    if (week) {
-      debug("week: ", +week);
+  const { name } = <IStack>admin?.stack ?? {name: false};
+  if(!name) throw new Error("Admin has not been assigned a stack")
+  if (admin) {
+    if (week) {;
       const scores = await getWeeklyScores(name, +week);
       res.status(200).send(scores);
     } else {

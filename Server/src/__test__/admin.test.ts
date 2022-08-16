@@ -5,6 +5,7 @@ import {fakeAdmin, dummyAdmin, dbConnect, dbDisconnect, dropCollections} from '.
 import { beforeAll, afterEach, beforeEach, afterAll, test, describe, it, expect } from '@jest/globals'
 import Admin from '../models/adminSchema';
 import { adminFakePasswordUpdate } from '../database/fakeDB/admin';
+import { debug } from 'console';
 
 
 
@@ -127,7 +128,7 @@ describe('Create Admin Endpoints', () => {
 
     it('It should return 201 for the create admin endpoint', async () => {
         try {
-            const res = await  request(app).post('/admin/create_user').send({
+            const res = await request(app).post('/admin/create_user').send({
                 firstName: "Moses",
                 lastName: "Ikenna",
                 email: "moses.amaechi@decagon.dev",
@@ -140,7 +141,9 @@ describe('Create Admin Endpoints', () => {
             });
             expect (res.status).toBe(201);
         } catch (error) {
-            console.log(error);
+            const { name, code }: any = error;
+            console.log('Error name: ', name, '\nCode: ', code);
+            // expect(error).toBeDefined()
         }
 
     })
@@ -224,6 +227,24 @@ describe('Tests by Leslie', function (){
 
         expect(JSON.parse(response.text)).toEqual(expect.objectContaining({status: 'success', imageUrl: expect.stringMatching(/^https:\/\/res.cloudinary.com/)}))
         // expect(response.text).toMatch(/^https:\/\/res.cloudinary.com/);
+    })
+
+    it('Should send forgot password link', async () => {
+        const response = await request(app)
+            .post('/recover/forgot_password')
+            .send({ email: admin?.email })
+        expect(response.status).toBe(500);
+        expect(JSON.parse(response.text)).toEqual({'error':'Account is not activated'})
+
+    })
+
+    it('Should reset password for valid user', async () => {
+        const response = await request(app)
+            .post('/recover/reset_password')
+            .send({ id: admin?._id , ...adminFakePasswordUpdate })
+        expect(response.status).toBe(500);
+        expect(JSON.parse(response.text)).toEqual({'error':'Account not activated cannot reset password'})
+        
     })
 })
 
