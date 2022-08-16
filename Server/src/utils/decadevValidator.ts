@@ -15,16 +15,8 @@ const decadevSchema = Joi.object({
     stack: Joi.string(),
     squad: Joi.number().min(1),
     status: Joi.string(),
-})
+}).with('newPassword', 'confirmPassword')
 
-//Validate Decadev password update
-const decadevPasswordUpdateSchema = Joi.object({
-    password: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-    newPassword: Joi.string()
-        .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
-    confirmPassword: Joi.ref('password'),
-})
 
 //Validate Decadev function
 export const validateDecadevDetails = async(req: Request, res: Response, next: NextFunction) => {
@@ -32,24 +24,6 @@ export const validateDecadevDetails = async(req: Request, res: Response, next: N
         //Validate input details
         const data =  req.body;
         const valid = await decadevSchema.validateAsync({...data});
-        if(valid){
-            next();
-        }
-    } catch(error: unknown){
-        //Error to handler
-        if(error instanceof ValidationError){
-            const {message} = error.details[0];
-            next(new Error(message));
-        }
-    }
-}
-
-//Validate Decadev Password update Function
-export const validateDecadevPasswordUpdateInput = async(req: Request, res: Response, next: NextFunction) => {
-    try{
-        //validate input details
-        const data = req.body;
-        const valid =  await decadevPasswordUpdateSchema.validateAsync({...data});
         if(valid){
             next();
         }

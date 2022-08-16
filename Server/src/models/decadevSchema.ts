@@ -24,7 +24,7 @@ const createDecadevSchema = new Schema({
     },
     phoneNo: {type: Number, default: 1234},
     squad: {type: String, required: true},
-    password: {type: String, required: true},
+    password: {type: String, required: true, select: false},
     status: {
         type: String, 
         enum: ["active", "inactive"],
@@ -36,13 +36,13 @@ const createDecadevSchema = new Schema({
 });
 
 createDecadevSchema.post('save', function(doc) {
-    const decadevScore = new Scores({ user_id: doc._id })
+    const decadevScore = new Scores({ user_id: doc?._id })
     decadevScore.save();
     return;
 })
 
 createDecadevSchema.post('findOneAndDelete', async function(doc){
-    const score = await Scores.findOneAndDelete({ user_id: doc._id });
+    const score = await Scores.findOneAndDelete({ user_id: doc?._id });
     return;
 })
 const Decadev = mongoose.model('Decadev', createDecadevSchema);

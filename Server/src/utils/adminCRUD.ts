@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { emailService } from '../services/mailer';
 import Stack from '../models/stackSchema';
+import message from './emailTemplate';
+import Debug from 'debug';
+const debug = Debug("live-project-scorecard-sq011a:server");
 
 const ADMIN = {
     // Error.prototype.status = 403;
@@ -128,6 +131,7 @@ const ADMIN = {
 
             /********************************** Email Service to admin ************************************/
             //Send email to new Admin
+            const { firstName, lastName } = admin;
             const url = `${process.env.BASE_URL}/admin/login`;
             const subject = `Admin Login Details`
             //Send email to applicant
@@ -136,7 +140,10 @@ const ADMIN = {
             <span style="text-decoration: none"> Email:<span> ${email} <br>
             <span style="text-decoration: none"> Password: <span> ${password} <br>
             <span style="text-decoration: none">Go to portal <a href=" http://${url}"> click here </a>. <span></p>`
-            await emailService(email, subject, text)
+            const mail = message(<string>firstName, text)
+
+            
+            await emailService(email, subject, mail, `${firstName} ${lastName}`);
             /********************************** Email Service to admin ************************************/
 
                 return admin;
@@ -202,7 +209,7 @@ const ADMIN = {
             //Search for admin in database
             const admin = await Admin.findOne(filter);
             if (admin) {
-                let { email, status, id } = admin;
+                let { email, status, id, firstName, lastName } = admin;
                 //Change Status
                 status = "active";
                 // admin["status"] = status;
@@ -210,12 +217,13 @@ const ADMIN = {
                     expiresIn: '1d'
                 })
                 // const token = jwt.sign({...admin}, `${process.env.JWT_SECRET}`, {
-                //     expiresIn: '30d'})
+                    //     expiresIn: '30d'})
                 const subject = `Admin Verification `
                 const url = `${process.env.BASE_URL}/admin/verify?token=${token}`;
                 //Send email to applicant
                 const text = `<p>Click to be verified as an admin <a href=" http://${url}"> click here </a>.</p>`
-                await emailService(email, subject, text)
+                const mail = message(<string>firstName, text);
+                await emailService(email, subject, mail, `${firstName} ${lastName}`)
                 return admin;
             }
 
@@ -322,6 +330,7 @@ const ADMIN = {
             const filter = {name: str};
             const stack = await Stack.findOne(filter);
             if(stack){
+                debug('Stack to be registered: ', stack)
                 return stack._id;
             }
         }catch(error){

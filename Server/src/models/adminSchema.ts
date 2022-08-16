@@ -33,7 +33,7 @@ const adminModelSchema = new Schema({
     }
 },
 {
-timestamps: true
+    timestamps: true
 })
 
 

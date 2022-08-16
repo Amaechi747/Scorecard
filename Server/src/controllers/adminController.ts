@@ -18,20 +18,6 @@ export const getAdminProfile = asyncHandler(async function (
   }
 });
 
-export const addNewImage = asyncHandler(async function (
-  req: Request,
-  res: Response
-) {
-  if (req.file) {
-    const adminId = req.params.id;
-
-    const admin = await ADMIN.getAdmin(adminId);
-    if(admin) {
-        res.status(200).json(admin);
-    }
-
-} )
-
 export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
     if (req.file) {
         const adminId = req.params.id;
@@ -43,7 +29,7 @@ export const addNewImage = asyncHandler( async function (req: Request, res: Resp
             return;
         }
     }
-} )
+} );
 
 
 export const createAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
@@ -55,42 +41,6 @@ export const createAdmin = asyncHandler( async function(req: Request, res: Respo
             return;
         }
  
-})
-
-export const editAdmin = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
-    const {id} = req.params;
-    const update: IAdminUpdate = req.body;
-    // Update details
-    const updatedAdminData = await ADMIN.edit(id, update)
-    //Send updated data
-    if(updatedAdminData){
-        res.status(201).send(updatedAdminData);
-        return;
-    }
-
-})
-
-
-    const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
-    if (newImageUrl) {
-      res.status(200).send(newImageUrl);
-      return;
-    }
-  }
-});
-
-export const createAdmin = asyncHandler(async function (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  // Create admin
-  const data: IAdmin = req.body;
-  const admin = await ADMIN.create(data);
-  if (admin) {
-    res.status(201).json(admin);
-    return;
-  }
 });
 
 export const editAdmin = asyncHandler(async function (
@@ -176,21 +126,6 @@ export const deleteAdmin = asyncHandler(async function (
   }
 });
 
-export const updateAdminPassword = asyncHandler(async function (
-  req: Request,
-  res: Response
-) {
-  const { password: oldPass, newPassword: newPass } = req.body;
-  const result = await ADMIN.changeAdminPassword(
-    req.params.id,
-    newPass,
-    oldPass
-  );
-  if (result) {
-    res.send({ status: "Success", message: "Password has been updated" });
-  }
-});
-
 export const filterScores = asyncHandler(async function (
   req: Request,
   res: Response
@@ -198,12 +133,10 @@ export const filterScores = asyncHandler(async function (
   const { id } = req.params;
   const { week } = req.query;
   const admin = await ADMIN.getAdmin(id);
-  debug("Admin: ", admin);
-  const { name } = <IStack>admin.stack;
-  debug("Name: ", name);
-  if (admin && name) {
-    if (week) {
-      debug("week: ", +week);
+  const { name } = <IStack>admin?.stack ?? {name: false};
+  if(!name) throw new Error("Admin has not been assigned a stack")
+  if (admin) {
+    if (week) {;
       const scores = await getWeeklyScores(name, +week);
       res.status(200).send(scores);
     } else {
@@ -230,7 +163,8 @@ export const searchScores = asyncHandler(async function (
       res.status(200).send(scores);
     } else {
       throw new Error("No search text found");
-
+    }
+}
 })
 
 export const updateAdminPassword = asyncHandler( async function (req:Request, res: Response) {
@@ -241,10 +175,9 @@ export const updateAdminPassword = asyncHandler( async function (req:Request, re
         //  oldPass
          );
     if (result) {
-        res.send({status: 'Success', message: 'Password has been updated'});
-
+        res.send({status: 'success', message: 'Password has been updated'});
+        return;
     }
-    return;
+    throw new Error("No admin found");
   }
-  throw new Error("No admin found");
-});
+);

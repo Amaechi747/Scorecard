@@ -1,10 +1,11 @@
 import Decadev from "../models/decadevSchema";
-import bcrypt from 'bcryptjs';
+import bcrypt, { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { emailService } from "../services/mailer";
 import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
-import { ObjectId } from 'mongoose';
+import { LeanDocument, ObjectId } from 'mongoose';
 import Stack from '../models/stackSchema';
+import message from './emailTemplate'
 // import Stack from '../models/stackSchema';
 // import { deactivateAdmin } from "../controllers/adminController";
 
@@ -23,10 +24,10 @@ export const DECADEV = {
             //Save decadev
             //Hash Password
             const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
+            const hashedPassword = await bcrypt.hash(<string>password, salt);
 
 
-            const stackId = await this.getOneStack(stack);
+            const stackId = await this.getOneStack(<string>stack);
 
 
             const newDecadev = new Decadev({...data, password: hashedPassword, stack: stackId});
@@ -41,6 +42,22 @@ export const DECADEV = {
         }
     },
     
+    async updatePassword(id: string, password: string) {
+        try {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            
+            const update = { $set: { password: hashedPassword } };
+            // const result = await Decadev.updateOne(filter, update)
+
+            const updatedDecadev = await Decadev.findByIdAndUpdate(id, update, { new: true });
+            if(updatedDecadev) {
+                return updatedDecadev;
+            }
+        } catch (error) {
+            throw new Error(`${error}`)
+        }
+    },
     // async getDecadev(id: string){
     //     try{
     //         //use id to get data from db
@@ -61,13 +78,13 @@ export const DECADEV = {
             //Set filter variable
             const filter = {_id: id};
             //Update
-            const {password, stack} = update;
+            const {password, stack, ...data} = update;
             let stackId;
             if(stack){
                 stackId = await this.getOneStack(stack);
             };
 
-            const updatedDecadev = Decadev.findOneAndUpdate(filter, {...update, stack: stackId}, {new: true});
+            const updatedDecadev = Decadev.findOneAndUpdate(filter, { ...data, stack: stackId }, { new: true });
             if(updatedDecadev){
                 return updatedDecadev;
             }
@@ -98,15 +115,17 @@ export const DECADEV = {
             //search for decadev in database
             const decadev = await Decadev.findOne(filter);
             if(decadev){
-                let {email, status, id} = decadev;
+                let {email, status, id, firstName, lastName} = decadev;
                 //Change Status
                 status = "active";
                 const token = jwt.sign({status, id}, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
                 const url = `${process.env.BASE_URL}/users/verify?token=${token}`;
+                const subject = 'Latest Decadev';
                 //Send email to decadev
-                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>
-                <p style="text-align: center;">Link expires in 24hrs</p>`;
-                await emailService(email, url, text);
+                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>`;
+                const mail = message(<string>firstName, text);
+
+                await emailService(email, subject, mail, `${firstName} ${lastName}`);
                 return decadev;
             }
         } catch (error){
@@ -152,7 +171,7 @@ export const DECADEV = {
             const { assessment, agileTest, algorithm, weeklyTask} = data;
             data.cummulative = (assessment * 0.2) + (algorithm * 0.2) + (agileTest * 0.2) + (weeklyTask * 0.4)
             if(id) {
-                const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true }).exec();
+                const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true });
                 return decadevScore;
             }
         } catch (error) {
@@ -172,10 +191,7 @@ export const DECADEV = {
         }catch(error){
             throw new Error(`${error}`);
         }
+        return;
     },
 
-    // let stackId;
-    //         if(stack){
-    //             stackId = await this.getOneStack(stack);
-    //         }
 }
