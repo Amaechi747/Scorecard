@@ -9,7 +9,7 @@ import { app } from '../app';
 // Database Connections
 beforeAll(async () => await dbConnect());
 afterAll(async () => await dbDisconnect());
-// afterEach( async () => await dropCollections)
+afterEach( async () => await dropCollections)
 
 describe('Create Decadev Models', ()=>{
     it('Should create a new Decadev', async () => {
@@ -105,7 +105,7 @@ describe('Decadev endpoints', () => {
     })
 
     afterEach( async () => {
-        return await Decadev.findOneAndDelete({id});
+        await Decadev.findOneAndDelete({id});
     })
 
     it('should return 200 for create decadev endpoints', async () => {

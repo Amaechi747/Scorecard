@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { LeanDocument } from 'mongoose';
-import { emailService } from './mailer';
+import { emailService } from './mailer.service';
 import Decadev from '../models/decadevSchema';
 import Admin from '../models/adminSchema';
 import message from '../utils/emailTemplate';

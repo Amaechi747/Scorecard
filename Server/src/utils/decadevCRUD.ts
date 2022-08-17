@@ -254,7 +254,8 @@ const DECADEV = {
     },
 
     calculatePerformance(performance: any){
-        if(performance.length === 1){
+
+        if(performance.length === 1 || performance.length === 0){
             const percentageDifferenceCommulative = 0.000;
             const percentageDifferenceAlgorithm = 0.000;
             const percentageDifferenceAgile = 0.000;
