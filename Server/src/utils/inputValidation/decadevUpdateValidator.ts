@@ -1,8 +1,9 @@
+
 import {Request, Response, NextFunction} from 'express';
 import Joi, {ValidationError} from 'joi';
 
 //Validate Decadev details
-export const decadevSchema = Joi.object({
+const decadevSchema = Joi.object({
     firstName: Joi.string().alphanum().min(3).max(30).required(),
     lastName: Joi.string().alphanum().min(3).max(30).required(),
     email: Joi.string()
@@ -12,14 +13,11 @@ export const decadevSchema = Joi.object({
         .required(),
     confirmPassword: Joi.ref('password'),
     phoneNo: Joi.number(),
-    stack: Joi.string(),
     squad: Joi.number().min(1),
     status: Joi.string(),
-}).with('newPassword', 'confirmPassword')
+}).with('password', 'confirmPassword')
 
-
-//Validate Decadev function
-export const validateDecadevDetails = async(req: Request, res: Response, next: NextFunction) => {
+export const validateDecadevUpdateDetails = async(req: Request, res: Response, next: NextFunction) => {
     try{
         //Validate input details
         const data =  req.body;
@@ -35,6 +33,3 @@ export const validateDecadevDetails = async(req: Request, res: Response, next: N
         }
     }
 }
-
-
-//Validate Decadev Update/Edit Input Values
