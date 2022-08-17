@@ -7,6 +7,7 @@ import {
 } from "../utils/adminInputValidator";
 import parser from "../utils/imageUpload";
 import { validateAdminUpdateDetails } from "../utils/adminUpdateValidator";
+import { validateDecadevUpdateDetails } from "../utils/decadevUpdateValidator";
 import {
   createDecadev,
   editDecadev,
@@ -70,7 +71,7 @@ router.post("/create_stack", validateStackInput, addStack);
 router.post("/create_decadev", validateDecadevDetails, createDecadev);
 
 /* Edit Decadev */
-router.patch("/edit_decadev/:id", editDecadev);
+router.patch("/edit_decadev/:id", validateDecadevUpdateDetails, editDecadev);
 
 /*Delete Decadev */
 router.delete("/delete_decadev/:id", deleteDecadev);
