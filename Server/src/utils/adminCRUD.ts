@@ -3,8 +3,9 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { emailService } from '../services/mailer.service';
 import Stack from '../models/stackSchema';
-
-
+import message from './emailTemplate';
+import Debug from 'debug';
+const debug = Debug("live-project-scorecard-sq011a:server");
 
 const ADMIN = {
     // Error.prototype.status = 403;
@@ -41,7 +42,7 @@ const ADMIN = {
     async getAdmin (id: string) {
         try {
             // use id to get data from db
-            const admin = await Admin.findById(id, { password: 0 });
+            const admin = await Admin.findById(id, { password: 0 }).populate('stack');
             if(admin) {
                 return admin;
             } else {
@@ -70,20 +71,26 @@ const ADMIN = {
         }
     },
 
-    async changeAdminPassword (id: string, newPass: string, oldPass: string) {
+    async changeAdminPassword (id: string, newPass: string, 
+        // oldPass: string
+        ) {
         try {
             const admin = await Admin.findOne({ _id: id })
-            const match = await bcrypt.compare(oldPass, <string>admin?.password);
-            if (admin && match) {
-                // Hash new Password
-                if(oldPass === newPass)
+            const match = await bcrypt.compare(newPass, <string>admin?.password);
+            if (admin) {
+                if(!match){
+                    // Hash new Password
+                    // if(oldPass === newPass)
+                    const salt = await bcrypt.genSalt(10);
+                    const hashedPassword = await bcrypt.hash(newPass, salt);
+                    admin.password = hashedPassword;
+                    return await admin.save()
+                } else {
                     throw new Error("New password may not be the same as previous password");
-                const salt = await bcrypt.genSalt(10);
-                const hashedPassword = await bcrypt.hash(newPass, salt);
-                admin.password = hashedPassword;
-                return await admin.save()
+                    // throw new Error("Current password is wrong");
+                }
             } else {
-                throw new Error("Current password is wrong");
+                throw new Error("Admin Not found");
             }
         } catch (error: unknown) {
             throw new Error(`${error}`);
@@ -124,6 +131,7 @@ const ADMIN = {
 
             /********************************** Email Service to admin ************************************/
             //Send email to new Admin
+            const { firstName, lastName } = admin;
             const url = `${process.env.BASE_URL}/admin/login`;
             const subject = `Admin Login Details`
             //Send email to applicant
@@ -132,7 +140,10 @@ const ADMIN = {
             <span style="text-decoration: none"> Email:<span> ${email} <br>
             <span style="text-decoration: none"> Password: <span> ${password} <br>
             <span style="text-decoration: none">Go to portal <a href=" http://${url}"> click here </a>. <span></p>`
-            await emailService(email, subject, text)
+            const mail = message(<string>firstName, text)
+
+            
+            await emailService(email, subject, mail, `${firstName} ${lastName}`);
             /********************************** Email Service to admin ************************************/
 
                 return admin;
@@ -198,7 +209,7 @@ const ADMIN = {
             //Search for admin in database
             const admin = await Admin.findOne(filter);
             if (admin) {
-                let { email, status, id } = admin;
+                let { email, status, id, firstName, lastName } = admin;
                 //Change Status
                 status = "active";
                 // admin["status"] = status;
@@ -206,12 +217,13 @@ const ADMIN = {
                     expiresIn: '1d'
                 })
                 // const token = jwt.sign({...admin}, `${process.env.JWT_SECRET}`, {
-                //     expiresIn: '30d'})
+                    //     expiresIn: '30d'})
                 const subject = `Admin Verification `
                 const url = `${process.env.BASE_URL}/admin/verify?token=${token}`;
                 //Send email to applicant
                 const text = `<p>Click to be verified as an admin <a href=" http://${url}"> click here </a>.</p>`
-                await emailService(email, subject, text)
+                const mail = message(<string>firstName, text);
+                await emailService(email, subject, mail, `${firstName} ${lastName}`)
                 return admin;
             }
 
@@ -318,6 +330,7 @@ const ADMIN = {
             const filter = {name: str};
             const stack = await Stack.findOne(filter);
             if(stack){
+                debug('Stack to be registered: ', stack)
                 return stack._id;
             }
         }catch(error){

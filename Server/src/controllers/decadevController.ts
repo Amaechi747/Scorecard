@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction} from 'express';
-import { DECADEV } from '../utils/decadevCRUD';
 import asyncHandler from "express-async-handler";
-import User from '../services/user.service'
 import Decadev from '../models/decadevSchema';
+import DECADEV from '../utils/decadevCRUD';
 
-
+  
 //Controller for Admin to create an Account for decadevs
 export const createDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     // Create decadev
     const data: IDecadev = req.body;
     const decadev = await DECADEV.create(data);
     if(decadev){
-        res.status(200).send("Decadev account created successfully");
+        res.status(200).send({status: 'success', message: "Decadev account created successfully", data: decadev});
         return;
     }
 }) 
@@ -24,7 +23,7 @@ export const editDecadev = asyncHandler(async (req: Request, res: Response, next
     const updatedDecadevData = await DECADEV.edit(id, update)
     //Send updated data
     if(updatedDecadevData){
-        res.status(201).send("Update saved");
+        res.status(201).send({status: 'success', message: "Update saved"});
         return;
     }
 })
@@ -35,7 +34,7 @@ export const deleteDecadev  = asyncHandler(async(req: Request, res: Response, ne
     const {id} = req.params;
     const deleted = await DECADEV.delete(id);
     if(deleted){
-        res.status(204).send("Decadev account deleted successfully");
+        res.status(200).send({status: 'success', message: "Decadev account deleted successfully"});
         return;
     }
     return;
@@ -45,7 +44,7 @@ export const activateDecadev = asyncHandler(async(req: Request, res: Response, n
     const {id} = req.params;
     const activated = await DECADEV.activate(id);
     if(activated){
-        res.status(200).send("Decadev account activated");
+        res.status(200).send({status: 'success', message: "Decadev account activated"});
         return;
     }
 })
@@ -55,7 +54,7 @@ export const verifyDecadev = asyncHandler( async(req: Request, res: Response, ne
     const {token} = req.query;
     const verified = await DECADEV.verify(token);
     if(verified){
-        res.status(200).send("Account verified successfully");
+        res.status(200).send({status: 'success', message: "Account verified successfully"});
         return;
     }
 })
@@ -65,7 +64,7 @@ export const deactivateDecadev = asyncHandler(async(req: Request, res: Response,
     const {id} = req.params;
     const deactivated = await DECADEV.deactivate(id);
     if(deactivated){
-        res.status(201).send("Decadev account deactivated");
+        res.status(201).send({status: 'success', message: "Decadev account deactivated"});
         return;
     }
 })

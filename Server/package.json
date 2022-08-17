@@ -10,6 +10,7 @@
     "watch": "tsc --watch",
     "dev": "DEBUG=live-project-scorecard-sq011a:server nodemon ./bin/www",
     "test": "jest --testTimeout=50000 --runInBand --detectOpenHandles"
+
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

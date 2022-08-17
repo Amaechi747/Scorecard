@@ -1,10 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
+
 import { verifyDecadev, updatePassword, performanceTracker, getCurrentPerformance } from "../controllers/decadevController";
 import { loginUser } from "../controllers/authentication";
 import {loginDetailsValidation} from '../utils/inputValidation/loginValidation';
 import {updatePasswordDetailsValidation} from '../utils/inputValidation/passwordUpdateValidation';
 
 import {isAthenticated} from '../controllers/middleware/isAthenticated';
+
+
 const router = express.Router();
 
 /* GET users listing. */
@@ -24,9 +27,6 @@ router.get('/get_current_performance/:id', getCurrentPerformance)
 router.post('/login', loginDetailsValidation, loginUser); 
 
 router.post('/update_password', updatePasswordDetailsValidation, updatePassword);
-
-
-
 
 
 

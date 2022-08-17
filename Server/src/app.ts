@@ -10,7 +10,7 @@ import "dotenv/config"
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 import adminRouter from "./routes/admin";
-
+import recoveryRouter from "./routes/recovery"
 
 
 export const app = express();
@@ -24,6 +24,7 @@ app.use(cookieParser());
 
 app.use('/admin', adminRouter);
 app.use('/', indexRouter);
+app.use('/recover', recoveryRouter)
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -42,8 +43,6 @@ app.use(function(err: HttpError, req: Request, res: Response, next: NextFunction
   res.status(err.status || 500);
   res.send({error: err.message});
 });
-
-
 /***********************************************************Middleware*************************************************/
 
 
