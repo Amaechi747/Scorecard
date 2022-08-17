@@ -9,9 +9,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "dev": "DEBUG=live-project-scorecard-sq011a:server nodemon ./bin/www",
-
     "test": "jest --testTimeout=50000 --runInBand --detectOpenHandles"
-
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -25,10 +23,8 @@
     "http-errors": "^2.0.0",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-
     "mocha": "^10.0.0",
     "mongodb-memory-server": "^8.8.0",
-
     "mongoose": "^6.5.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",

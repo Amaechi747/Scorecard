@@ -58,3 +58,15 @@ interface IWeeklyScore {
     assessment: number;
     cummulative?: number;
 }
+
+
+interface Idata {
+    email: string;
+    password: string
+}
+
+interface Iuser {
+    firstName: string;
+    lastName: string;
+    email: string;
+}

@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction} from 'express';
 import { DECADEV } from '../utils/decadevCRUD';
 import asyncHandler from "express-async-handler";
+import User from '../services/user.service'
+import Decadev from '../models/decadevSchema';
+
 
 //Controller for Admin to create an Account for decadevs
 export const createDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -74,4 +77,47 @@ export const addScoreForDecadev = asyncHandler(async (req: Request, res: Respons
         res.status(200).send(addedScore);
         return;
     }
+})
+
+
+export const updatePassword = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const data = {...req.body};
+    const {password} = data;
+    // if (req.headers.authorization.split(' ')[1] !== undefined ){
+    //     const token = req.headers.authorization.split(' ')[1] 
+
+    // }
+    //Get token
+    const token = req.cookies.token;
+    const passwordIsUpdated = await DECADEV.updatePassword(token, password); 
+
+
+
+    return;
+
+   
+})
+
+export const performanceTracker = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} = req.params;
+    const performance = await DECADEV.performanceTracker(id);
+   
+    res.status(200).send({
+        message: "Success",
+        data: performance
+    })
+
+    return;
+})
+
+export const getCurrentPerformance = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} =req.params;
+    const currentPerformance = await DECADEV.getCurrentPerformance(id);
+    
+    res.status(200).send({
+        message:"Success",
+        data: currentPerformance
+    })
+
+  return; 
 })

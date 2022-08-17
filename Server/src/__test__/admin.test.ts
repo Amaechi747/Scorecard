@@ -129,9 +129,8 @@ describe('Create Admin Endpoints', () => {
     })
 
     afterEach(async () => {
-        console.log(id);
+
         const admin = await Admin.findOneAndDelete({id});
-        console.log('deleted');
     })
 
 
@@ -176,27 +175,37 @@ describe('Create Admin Endpoints', () => {
     //     expect (res.status).not.toBe(404);
     // })
 
+    it('it should display all Admins when returned true', async () => {
+        const res = await request(app).get('/admin')
+           expect(res.status).toBe(200);
+
+    })
+
+   
+
 })
 
 
 
 
 
-describe('viewAll Admin Models', () => {
-    it('it should display all Admins when returned true', async () => {
-         const res = await (await request(app).get('/admin'))
-            expect(res.status).toBe(200);
 
-    })
+
+// describe('viewAll Admin Models', () => {
+//     it('it should display all Admins when returned true', async () => {
+//          const res = await request(app).get('/admin')
+//             expect(res.status).toBe(200);
+
+//     })
     
 
-})
+// })
 //test for stack creation by  super admin
-describe('create stack',()=>{
-    it('it should return true when stack is created',async ()=>{
-        const res = await(await request(app).get('/admin/create_stack'))
-        expect(res.status).toBe(200);
-    })
-})
+// describe('create stack',()=>{
+//     it('it should return true when stack is created',async ()=>{
+//         const res = await(await request(app).get('/admin/create_stack'))
+//         expect(res.status).toBe(200);
+//     })
+// })
 
 

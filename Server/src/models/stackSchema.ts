@@ -5,3 +5,5 @@ const stackModelSchema = new Schema({
 })
 const Stack = mongoose.model('Stack', stackModelSchema);
 export default Stack;
+
+
