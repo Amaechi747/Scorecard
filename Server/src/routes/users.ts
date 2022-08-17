@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 
-import { verifyDecadev, updatePassword, performanceTracker, getCurrentPerformance } from "../controllers/decadevController";
+import { verifyDecadev, updatePassword, performanceTracker, getCurrentPerformance ,cummulativePerformace} from "../controllers/decadevController";
 import { loginUser } from "../controllers/authentication";
 import {loginDetailsValidation} from '../utils/inputValidation/loginValidation';
 import {updatePasswordDetailsValidation} from '../utils/inputValidation/passwordUpdateValidation';
@@ -27,6 +27,9 @@ router.get('/get_current_performance/:id', getCurrentPerformance)
 router.post('/login', loginDetailsValidation, loginUser); 
 
 router.post('/update_password', updatePasswordDetailsValidation, updatePassword);
+
+/* get cummulative performance of a student with an ID */
+router.get('/cummulative_performance/:id',cummulativePerformace)
 
 
 
