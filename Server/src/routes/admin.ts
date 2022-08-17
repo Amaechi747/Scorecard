@@ -11,7 +11,7 @@ import {
     deactivateDecadev,
     addScoreForDecadev
 } from '../controllers/decadevController'
-import { validateDecadevUpdateDetails } from "../utils/inputValidation/decadevUpdateValidator";
+import { validateDecadevUpdateDetails } from "../utils/decadevUpdateValidator";
 import {
   createAdmin,
   editAdmin,
