@@ -59,8 +59,23 @@ interface IWeeklyScore {
     cummulative?: number;
 }
 
+
+
+interface Idata {
+    email: string;
+    password: string
+}
+
+interface Iuser {
+    firstName: string;
+    lastName: string;
+    email: string;
+
+}
+
 interface IStack {
     name: string;
     imageUrl: string;
     _id: string;
+
 }

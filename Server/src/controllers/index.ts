@@ -36,3 +36,4 @@ const superAdminRoute = async function (req: Request, res: Response, next: NextF
 }
 
 export default superAdminRoute;
+

@@ -1,21 +1,17 @@
 import express from "express";
-import {
-  validateAdminDetails,
-  validateAdminPasswordUpdateInput,
-  validateScoreInput,
-  validateStackInput,
-} from "../utils/adminInputValidator";
+import {validateAdminDetails, validateAdminPasswordUpdateInput, validateScoreInput, validateStackInput} from '../utils/inputValidation/adminInputValidator';
 import parser from "../utils/imageUpload";
-import { validateAdminUpdateDetails } from "../utils/adminUpdateValidator";
-import { validateDecadevUpdateDetails } from "../utils/decadevUpdateValidator";
-import {
-  createDecadev,
-  editDecadev,
-  deleteDecadev,
-  activateDecadev,
-  deactivateDecadev,
-  addScoreForDecadev,
-} from "../controllers/decadevController";
+
+import {validateAdminUpdateDetails} from '../utils/inputValidation/adminUpdateValidator';
+import { 
+    createDecadev, 
+    editDecadev, 
+    deleteDecadev, 
+    activateDecadev, 
+    deactivateDecadev,
+    addScoreForDecadev
+} from '../controllers/decadevController'
+import { validateDecadevUpdateDetails } from "../utils/inputValidation/decadevUpdateValidator";
 import {
   createAdmin,
   editAdmin,
@@ -37,7 +33,8 @@ import {
   editStack,
   deleteStack,
 } from "../controllers/stackController";
-import { validateDecadevDetails } from "../utils/decadevValidator";
+import { validateDecadevDetails } from "../utils/inputValidation/decadevValidator";
+
 
 const router = express.Router();
 

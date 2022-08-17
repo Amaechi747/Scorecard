@@ -19,7 +19,7 @@ const adminSchema = Joi.object({
         .required(),
 
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['dev'] } }),
+        .email({ minDomainSegments: 2, tlds: { allow: ['dev', 'com'] } }),
 
     password: Joi.string()
         .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))

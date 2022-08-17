@@ -1,7 +1,7 @@
 import Admin from '../models/adminSchema';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { emailService } from '../services/mailer';
+import { emailService } from '../services/mailer.service';
 import Stack from '../models/stackSchema';
 import message from './emailTemplate';
 import Debug from 'debug';

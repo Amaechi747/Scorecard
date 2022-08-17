@@ -4,6 +4,9 @@ const stackModelSchema = new Schema({
     imageUrl: {type: String, required: true}
 })
 
-
-export const Stack = mongoose.model('Stack', stackModelSchema);
+const Stack = mongoose.model('Stack', stackModelSchema);
 export default Stack;
+
+
+
+
