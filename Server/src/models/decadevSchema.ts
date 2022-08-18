@@ -9,7 +9,7 @@ interface IObjectId extends mongoose.Document{
 // Stack placeholder
 const id: IObjectId = Object("62ec43d22d8d489ca5f6c9dd");
 
-const createDecadevSchema = new Schema({
+export const createDecadevSchema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     email: {

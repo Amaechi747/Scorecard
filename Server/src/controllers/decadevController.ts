@@ -79,6 +79,17 @@ export const addScoreForDecadev = asyncHandler(async (req: Request, res: Respons
 })
 
 
+export const getCurrentPerformance = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const {id} =req.params;
+    const currentPerformance = await DECADEV.getCurrentPerformance(id);
+    console.log('I am here',currentPerformance);
+    res.status(200).send({
+        message:"Success",
+        data: currentPerformance
+    })
+  return; 
+})
+
 export const updatePassword = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
     const data = { ...req.body };
     const { password } = data;
@@ -121,11 +132,4 @@ export const getCurrentPerformance = asyncHandler(async function (req: Request, 
     return;
 })
 
-/* cummulative Performance */
-export const cummulativePerformace = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
-    const cummulativePerformance = await DECADEV.cummulativePerformace(id);
-    // if (!cummulativePerformance) return res.status(404).send({ status: 'fail', //message: "No performance found" });
-    res.status(201).json({ status: "success", message: "Cummulative score retrieved successfully", data: cummulativePerformance });
-    return
-})
+

@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
 
 
 
-export const emailService = function(emailAddress: unknown, subject: string, text: string,  name='Decagon Edo Tech Park'){
+export const emailService = function(emailAddress: unknown, subject: string, mail: string,  name='Decagon Edo Tech Park'){
     try{
         // const text = `<p>Click to be verified as an admin <a href=" http://${ url }"> click here </a>.</p>`
         const message = {
@@ -39,7 +39,7 @@ export const emailService = function(emailAddress: unknown, subject: string, tex
             to: `${name} <${emailAddress}>`,
             subject: subject,
             text: 'For clients with plaintext support only',
-            html: text,
+            html: mail,
         }
         transporter.sendMail(message, (err , data )=>{
             if (err) {
