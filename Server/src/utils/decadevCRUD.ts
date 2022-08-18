@@ -1,7 +1,7 @@
 import Decadev from "../models/decadevSchema";
 import bcrypt, { hash } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { emailService } from "../services/mailer";
+import { emailService } from "../services/mailer.service";
 import { Scores, weeklyScoreSchema } from '../models/scoresSchema';
 
 import mongoose, { LeanDocument, ObjectId } from 'mongoose';

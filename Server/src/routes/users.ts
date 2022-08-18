@@ -1,5 +1,15 @@
 import express, { Request, Response, NextFunction } from "express";
-import { verifyDecadev , getCurrentPerformance } from "../controllers/decadevController";
+
+
+import { verifyDecadev, updatePassword, performanceTracker, getCurrentPerformance ,cummulativePerformace} from "../controllers/decadevController";
+import { loginUser } from "../controllers/authentication";
+import {loginDetailsValidation} from '../utils/inputValidation/loginValidation';
+import {updatePasswordDetailsValidation} from '../utils/inputValidation/passwordUpdateValidation';
+
+import {isAthenticated} from '../controllers/middleware/isAthenticated';
+
+
+
 const router = express.Router();
 
 /* GET users listing. */
@@ -10,5 +20,19 @@ router.get('/', function(req: Request, res: Response, next: NextFunction) {
 router.get('/get_current_performance/:id', getCurrentPerformance)
 /* Verify Decadev */
 router.get('/verify', verifyDecadev);
+
+/*********** Get performance tracker *********/
+router.get('/scores/weekly/:id', performanceTracker)
+router.get('/get_current_performance/:id', getCurrentPerformance)
+
+/****** Login User *****/        
+router.post('/login', loginDetailsValidation, loginUser); 
+
+router.post('/update_password', updatePasswordDetailsValidation, updatePassword);
+
+/* get cummulative performance of a student with an ID */
+router.get('/cummulative_performance/:id',cummulativePerformace)
+
+
 
 export default router;
