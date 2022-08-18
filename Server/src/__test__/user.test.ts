@@ -146,6 +146,11 @@ describe('Decadev endpoints', () => {
         const res = await request(app).patch(`/admin/deactivate_decadev/${id}`)
         expect(res.status).toBe(201);
     })
+    
+    it('Should return 200', async () => {
+        const res = await request(app).get(`/users/get_current_performance/${id}`);
+        expect(res.status).toBe(200);
+    })
 })
 
 
