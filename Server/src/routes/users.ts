@@ -1,11 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
 
+
 import { verifyDecadev, updatePassword, performanceTracker, getCurrentPerformance ,cummulativePerformace} from "../controllers/decadevController";
 import { loginUser } from "../controllers/authentication";
 import {loginDetailsValidation} from '../utils/inputValidation/loginValidation';
 import {updatePasswordDetailsValidation} from '../utils/inputValidation/passwordUpdateValidation';
 
 import {isAthenticated} from '../controllers/middleware/isAthenticated';
+
 
 
 const router = express.Router();
@@ -15,7 +17,7 @@ router.get('/', function(req: Request, res: Response, next: NextFunction) {
   res.send('respond with a resource');
 });
 
-
+router.get('/get_current_performance/:id', getCurrentPerformance)
 /* Verify Decadev */
 router.get('/verify', verifyDecadev);
 
