@@ -1,11 +1,11 @@
 import mongoose,{Error} from 'mongoose';
 import request from 'supertest';
 import app from '../app';
-import {fakeAdmin, dummyAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
-import { beforeAll, afterEach, beforeEach, afterAll, test, describe, it, expect } from '@jest/globals'
+import {fakeAdmin, dbConnect, dbDisconnect, dropCollections} from '../database/fakeDB/admin';
+import { beforeAll, afterEach, beforeEach, afterAll, describe, it, expect } from '@jest/globals'
 import Admin from '../models/adminSchema';
 import { adminFakePasswordUpdate } from '../database/fakeDB/admin';
-import { debug } from 'console';
+
 
 
 
@@ -120,9 +120,8 @@ describe('Create Admin Endpoints', () => {
     })
 
     afterEach(async () => {
-        // console.log(id);
         const admin = await Admin.findOneAndDelete({id});
-        // console.log('deleted');
+
     })
 
 
@@ -171,6 +170,14 @@ describe('Create Admin Endpoints', () => {
     //     const res = await  request(app).get('/admin/verify')
     //     expect (res.status).not.toBe(404);
     // })
+
+    it('it should display all Admins when returned true', async () => {
+        const res = await request(app).get('/admin')
+           expect(res.status).toBe(200);
+
+    })
+
+   
 
 })
 
@@ -250,6 +257,22 @@ describe('Tests by Leslie', function (){
 
 
 
+// describe('viewAll Admin Models', () => {
+//     it('it should display all Admins when returned true', async () => {
+//          const res = await request(app).get('/admin')
+//             expect(res.status).toBe(200);
+
+//     })
+    
+
+// })
+//test for stack creation by  super admin
+// describe('create stack',()=>{
+//     it('it should return true when stack is created',async ()=>{
+//         const res = await(await request(app).get('/admin/create_stack'))
+//         expect(res.status).toBe(200);
+//     })
+// })
 
 describe('viewAll Admin Models', () => {
     it('it should display all Admins when returned true', async () => {
@@ -268,7 +291,6 @@ describe('viewAll Admin Models', () => {
 //     })
 
 // })
-
 
 
 

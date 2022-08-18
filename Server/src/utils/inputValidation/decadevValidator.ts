@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import Joi, {ValidationError} from 'joi';
 
 //Validate Decadev details
-const decadevSchema = Joi.object({
+export const decadevSchema = Joi.object({
     firstName: Joi.string().alphanum().min(3).max(30).required(),
     lastName: Joi.string().alphanum().min(3).max(30).required(),
     email: Joi.string()
