@@ -5,12 +5,14 @@ import { emailService } from './mailer.service';
 import Decadev from '../models/decadevSchema';
 import Admin from '../models/adminSchema';
 import message from '../utils/emailTemplate';
+import Debug from 'debug';
+const debug = Debug('live-project-scorecard-sq011a:server')
 
 async function sendPasswordResetLink(user: LeanDocument<Partial<IDecadev | IAdmin>>) {
     try{
         if(user){
             let {email, firstName, lastName, _id} = user;
-            const token = jwt.sign({ id: _id }, `${process.env.JWT_SECRET}`, {expiresIn: '1d'})
+            const token = jwt.sign({ id: _id }, `${process.env.JWT_SECRET}`, {expiresIn: '5m'})
             const url = `${process.env.CLIENT_URL}/reset-password/${token}`;
             //Send email to user
             const subject = `Scorecard password Reset`
@@ -53,6 +55,7 @@ async function userExists(query: { email: string }) {
             return user.toObject();
         }
     }
+    debug('User: ', user)
     return null;
 }
 
