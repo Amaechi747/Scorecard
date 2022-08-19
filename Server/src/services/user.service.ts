@@ -11,6 +11,7 @@ const User = {
         const {email, password} = data;
         const emailSubstring = email.split('@')[1];
         //Admin verification
+       
         if(emailSubstring === "decagonhq.com"){
             const filter = {email}
             const isAdmin = await Admin.findOne(filter);
@@ -21,7 +22,19 @@ const User = {
                 if (await bcrypt.compare(password, hashedPassword)){ 
                     const {_id} = isAdmin; 
                     const token = this.generateToken(_id);
-                    return token;
+                    const admin = {
+                        id: isAdmin._id,
+                        firstName: isAdmin.firstName,
+                        lastName: isAdmin.lastName,
+                        email: isAdmin.email,
+                        stack: isAdmin.stack,
+                        role: isAdmin.role,
+                        phoneNo: isAdmin.phoneNo,
+                        squad: isAdmin.squad,
+                        status: isAdmin.status
+                    }
+                    const data = {token, admin};
+                    return data;
                 }
                 throw new Error('Invalid email or Password')
             }else{
@@ -33,14 +46,28 @@ const User = {
         if(emailSubstring === "decagon.dev"){
             const filter = {email}
             const isDecadev = await Decadev.findOne(filter);
+            console.log(isDecadev?.password)  
             if(isDecadev){
                 const hashedPassword: any = isDecadev.password;
                 if (await bcrypt.compare(password, hashedPassword)){ 
-                    const {_id} = isDecadev;   
+                    const {_id} = isDecadev; 
                     const token = this.generateToken(_id);
-                    return token;           
+                    const decadevDetails = {
+                        id: isDecadev._id,
+                        firstName: isDecadev.firstName,
+                        lastName: isDecadev.lastName,
+                        email: isDecadev.email,
+                        stack: isDecadev.stack,
+                        phoneNo: isDecadev.phoneNo,
+                        squad: isDecadev.squad,
+                        status: isDecadev.status
+                    }
+                    const data = {token, decadevDetails};
+                    return data;          
                 }
                 throw new Error('Invalid email or Password')
+       
+                    
             }else{
                 throw new Error('Invalid email or Password')
             }
