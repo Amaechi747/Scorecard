@@ -28,13 +28,13 @@ router.get('/get_current_performance/:id', getCurrentPerformance)
 router.get('/verify', verifyDecadev);
 
 /*********** Get performance tracker *********/
-router.get('/scores/weekly/:id', performanceTracker)
-router.get('/get_current_performance/:id', getCurrentPerformance)
+router.get('/scores/weekly/:id', isAthenticated, performanceTracker)
+router.get('/get_current_performance/:id', isAthenticated, getCurrentPerformance)
 
 /****** Login User *****/        
 router.post('/login', loginDetailsValidation, loginUser); 
 
-router.post('/update_password', updatePasswordDetailsValidation, updatePassword);
+router.post('/update_password', isAthenticated, updatePasswordDetailsValidation, updatePassword);
 
 /* get cummulative performance of a student with an ID */
 router.get('/cummulative_performance/:id',getCummulativePerformance)
