@@ -315,10 +315,10 @@ export const DECADEV = {
         }
         return;
     },
-    async cummulativePerformace(id: string) {
+    async cummulativePerformance(id: string) {
         const weeklyPerformance = await Scores.findById(id);
         const { scoresWeekly }:any = weeklyPerformance;
-        const weeklyCumulative = scoresWeekly.map((score:IWeeklyScore,index:number) => `{week ${index}: ${score.cummulative}}`);
+        const weeklyCumulative = scoresWeekly.map((score:IWeeklyScore,index:number) => `{week ${index+1}: ${score.cummulative}}`);
         return weeklyCumulative;
     }
 

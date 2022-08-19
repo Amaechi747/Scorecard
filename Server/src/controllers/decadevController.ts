@@ -101,11 +101,7 @@ export const updatePassword = asyncHandler(async function (req: Request, res: Re
     const token = req.cookies.token;
     const passwordIsUpdated = await DECADEV.updatePassword(token, password);
 
-
-
     return;
-
-
 })
 
 export const performanceTracker = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
@@ -120,9 +116,9 @@ export const performanceTracker = asyncHandler(async function (req: Request, res
     return;
 })
 
-export const getCurrentPerformance = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
+export const getCummulativePerformance = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
-    const currentPerformance = await DECADEV.getCurrentPerformance(id);
+    const currentPerformance = await DECADEV.cummulativePerformance(id);
 
     res.status(200).send({
         message: "Success",

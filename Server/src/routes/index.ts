@@ -1,4 +1,5 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
+import superAdminRoute from "../controllers";
 
 import { loginSuperAdmin } from '../controllers/authentication';
 const router = express.Router();
@@ -14,7 +15,6 @@ router.get('/login', loginSuperAdmin);
 
 
 
-import superAdminRoute from "../controllers";
 
 /* GET home page. */
 router.post('/admin/superuser', superAdminRoute);
