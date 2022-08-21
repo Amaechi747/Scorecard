@@ -13,7 +13,6 @@ export const loginUser = asyncHandler( async function (req: Request, res: Respon
     const data: Idata = req.body;
     const userToken = await User.verify(data);
     if(userToken){
-        console.log(userToken)
         res.status(200).send({message: "Success", data: userToken});
         return;
     }

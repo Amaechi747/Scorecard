@@ -179,22 +179,23 @@ const DECADEV = {
     },
 
     //Update Password
-    async updatePassword(token: string, password: string){
-        if (process.env.JWT_SECRET){
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            if(decoded instanceof Object){
-                const {id}= decoded;
-                console.log(id)
-                const filter = {_id: id}
-
+    async updatePassword(userData: any, password: string){
+               const {_id} = userData;
+               const emailSubstring = password.split('@')[1]
+               if(emailSubstring !== 'decagon.dev'){
+                    throw new Error('Email must be a valid decadev email')
+               }
+                console.log(userData);
                 //Ensure Password is different from former
-
-                const decadev = await Decadev.findById(filter);
+                const decadev = await Decadev.findOne({_id});
+                console.log(decadev);
                 const formerPassword: any = decadev?.password;
                 const email = decadev?.email;
+
                 if( !password ){
                     throw new Error('Please input a new password.')
                 }
+
                 if(await bcrypt.compare(password, formerPassword)){
                     throw new Error('Password must be different from the old password');
                 }
@@ -203,9 +204,8 @@ const DECADEV = {
                 const salt = await bcrypt.genSalt(10);
                 const hashedPassword = await bcrypt.hash(password, salt);
                 const update = {password: hashedPassword};
-
-                const user = await Decadev.findOneAndUpdate(filter, update, {new: true});
-                const subject = "Password Update ";
+                const user = await Decadev.findOneAndUpdate({email: email}, update, {new: true, runValidators: true});
+                const subject = "Password Update";
 
                 //Send email to decadev
                 const text = `<p>Your login password was changed.</br>
@@ -215,12 +215,13 @@ const DECADEV = {
                 </p>
                `;
                 await emailService(email, subject, text);
-                
-                return user;
+                if(user){
+                    return user;
+                }
 
     
-            }
-        }
+
+
       
     },
 

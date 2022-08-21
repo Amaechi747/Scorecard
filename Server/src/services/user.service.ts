@@ -20,8 +20,9 @@ const User = {
                 //Get details
                 const hashedPassword: any = isAdmin.password;
                 if (await bcrypt.compare(password, hashedPassword)){ 
-                    const {_id} = isAdmin; 
-                    const token = this.generateToken(_id);
+                    const {_id, email} = isAdmin; 
+                    const userData = {_id, email};
+                    const token = this.generateToken(userData);
                     const admin = {
                         id: isAdmin._id,
                         firstName: isAdmin.firstName,
@@ -46,12 +47,13 @@ const User = {
         if(emailSubstring === "decagon.dev"){
             const filter = {email}
             const isDecadev = await Decadev.findOne(filter);
-            console.log(isDecadev?.password)  
+            console.log(isDecadev)
             if(isDecadev){
                 const hashedPassword: any = isDecadev.password;
                 if (await bcrypt.compare(password, hashedPassword)){ 
-                    const {_id} = isDecadev; 
-                    const token = this.generateToken(_id);
+                    const {_id, email} = isDecadev; 
+                    const userData = {_id: isDecadev._id, email: isDecadev.email};
+                    const token = this.generateToken(userData);
                     const decadevDetails = {
                         id: isDecadev._id,
                         firstName: isDecadev.firstName,

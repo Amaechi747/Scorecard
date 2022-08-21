@@ -26,7 +26,7 @@ router.get('/get_current_performance/:id', isAthenticated, getCurrentPerformance
 /****** Login User *****/        
 router.post('/login', loginDetailsValidation, loginUser); 
 
-router.post('/update_password', isAthenticated, updatePasswordDetailsValidation, updatePassword);
+router.post('/update_password', updatePasswordDetailsValidation, isAthenticated, updatePassword);
 
 
 
