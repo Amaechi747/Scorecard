@@ -18,9 +18,6 @@ export const validateEmail = async(req: Request, res: Response, next: NextFuncti
     }
 }
 
-
-
-
 //Validate Decadev password update
 const passwordUpdateSchema = Joi.object({
     id: Joi.string().length(24),

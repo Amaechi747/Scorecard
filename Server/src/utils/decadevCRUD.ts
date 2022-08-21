@@ -16,7 +16,7 @@ import message from './emailTemplate';
 //     id: Types.ObjectId
 // }
 
-const DECADEV = {
+export const DECADEV = {
     async create(data: IDecadev){
         try{
             //Get decadev data
@@ -316,6 +316,12 @@ const DECADEV = {
         }
         return;
     },
+    async cummulativePerformance(id: string) {
+        const weeklyPerformance = await Scores.findById(id);
+        const { scoresWeekly }:any = weeklyPerformance;
+        const weeklyCumulative = scoresWeekly.map((score:IWeeklyScore,index:number) => `{week ${index+1}: ${score.cummulative}}`);
+        return weeklyCumulative;
+    }
 
 
 }
