@@ -88,6 +88,7 @@ export const updatePassword = asyncHandler( async function(req: Request, res: Re
     res.status(200).send({status: "Success", message: "Password Updated Successfully"});
 
     return;
+})
    
 
 export const getCurrentPerformance = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
@@ -102,7 +103,6 @@ export const getCurrentPerformance = asyncHandler( async function(req: Request, 
 })
 
 
-})
 
 export const performanceTracker = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
