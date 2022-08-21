@@ -79,6 +79,17 @@ export const addScoreForDecadev = asyncHandler(async (req: Request, res: Respons
 })
 
 
+
+export const updatePassword = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
+    const data = {...req.body};
+    const {password} = data;
+    const passwordIsUpdated = await DECADEV.updatePassword(req.body.user, password); 
+    
+    res.status(200).send({status: "Success", message: "Password Updated Successfully"});
+
+    return;
+   
+
 export const getCurrentPerformance = asyncHandler( async function(req: Request, res: Response, next: NextFunction){
     const {id} =req.params;
     const currentPerformance = await DECADEV.getCurrentPerformance(id);
@@ -90,18 +101,7 @@ export const getCurrentPerformance = asyncHandler( async function(req: Request, 
   return; 
 })
 
-export const updatePassword = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {
-    const data = { ...req.body };
-    const { password } = data;
-    // if (req.headers.authorization.split(' ')[1] !== undefined ){
-    //     const token = req.headers.authorization.split(' ')[1] 
 
-    // }
-    //Get token
-    const token = req.cookies.token;
-    const passwordIsUpdated = await DECADEV.updatePassword(token, password);
-
-    return;
 })
 
 export const performanceTracker = asyncHandler(async function (req: Request, res: Response, next: NextFunction) {

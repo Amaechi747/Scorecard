@@ -113,12 +113,12 @@ const ADMIN = {
             const stackId = await this.getOneStack(stack);
 
             const emailSubstring = email.split('@')[1]
-            // if(emailSubstring !== "decagonhq.com"){
-            //     throw new Error('Please use a valid decagon staff email.')
-            // }
-            if (emailSubstring !== "decagon.dev") {
+            if(emailSubstring !== "decagonhq.com"){
                 throw new Error('Please use a valid decagon staff email.')
             }
+            // if (emailSubstring !== "decagon.dev") {
+            //     throw new Error('Please use a valid decagon staff email.')
+            // }
 
             //Save data
             // Hash Password

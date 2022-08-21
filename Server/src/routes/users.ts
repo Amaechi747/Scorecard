@@ -34,7 +34,7 @@ router.get('/get_current_performance/:id', isAthenticated, getCurrentPerformance
 /****** Login User *****/        
 router.post('/login', loginDetailsValidation, loginUser); 
 
-router.post('/update_password', isAthenticated, updatePasswordDetailsValidation, updatePassword);
+router.post('/update_password', updatePasswordDetailsValidation, isAthenticated, updatePassword);
 
 /* get cummulative performance of a student with an ID */
 router.get('/cummulative_performance/:id',getCummulativePerformance)
