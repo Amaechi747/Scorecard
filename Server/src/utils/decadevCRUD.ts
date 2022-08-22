@@ -178,6 +178,25 @@ export const DECADEV = {
         return;
     },
 
+    //Get all decadev
+    async get() {
+        try {
+            const getAllDecadev = Decadev.aggregate([{
+                $match: {
+                    
+                }
+            }]) 
+            
+            return getAllDecadev
+        }
+        
+        catch (error) {
+
+         throw new Error(`${error}`);
+
+        }
+    },
+
     //Update Password
     async updatePassword(token: string, password: string){
         if (process.env.JWT_SECRET){
