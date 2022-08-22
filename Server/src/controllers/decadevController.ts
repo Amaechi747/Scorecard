@@ -40,6 +40,19 @@ export const deleteDecadev = asyncHandler(async (req: Request, res: Response, ne
     return;
 })
 
+//Get all decadev
+export const getDecadev = asyncHandler(async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    //    Get users
+    const getAllDecadev = await DECADEV.get();
+    if (getAllDecadev) {
+      res.status(200).send(getAllDecadev);
+    }
+  });
+
 export const activateDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const activated = await DECADEV.activate(id);
