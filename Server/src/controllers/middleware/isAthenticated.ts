@@ -7,7 +7,6 @@ export const isAthenticated = async function(req: Request, res: Response, next: 
     let token;
     if(((req.headers.authorization !== undefined) && (req.headers.authorization.startsWith('Bearer'))) ){
         try{
-            console.log('Wowww')
             token = req.headers.authorization.split(' ')[1] 
             // Verify Token
             if (process.env.JWT_SECRET){
@@ -16,7 +15,6 @@ export const isAthenticated = async function(req: Request, res: Response, next: 
                     const {email} = verified.id;
                     const user = await isUser(email)
                     req.body.user = user;
-                    console.log(req.body.user )
                     next(); 
                 }
             }
