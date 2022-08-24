@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 // import dotenv from 'dotenv';
 // const dotEnv = dotenv.config();
@@ -18,6 +19,10 @@ const admin_1 = __importDefault(require("./routes/admin"));
 const recovery_1 = __importDefault(require("./routes/recovery"));
 exports.app = (0, express_1.default)();
 /***********************************************************Middleware*************************************************/
+exports.app.use((0, cors_1.default)({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 exports.app.use((0, morgan_1.default)('dev'));
 exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.urlencoded({ extended: false }));

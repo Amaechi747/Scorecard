@@ -1,9 +1,12 @@
 import express, { Request, Response, NextFunction}  from 'express';
 import asyncHandler from "express-async-handler";
 import recoveryService from '../services/recoveryService';
+import Debug from 'debug';
+const debug = Debug('live-project-scorecard-sq011a:server')
 
 export const forgotPassword = asyncHandler(async (req: Request, res: Response, next: NextFunction)=>{
-    const userExists = await recoveryService.userExists({ ...req.body });
+    const { email } = req.body;
+    const userExists = email ? await recoveryService.userExists({ ...req.body }) : null;
     if(userExists) {
         if(userExists.status === 'inactive') throw new Error('Account is not activated');
         const decadev = await recoveryService.sendPasswordResetLink(userExists);
