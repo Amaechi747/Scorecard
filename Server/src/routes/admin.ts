@@ -10,7 +10,8 @@ import {
     deleteDecadev, 
     activateDecadev, 
     deactivateDecadev,
-    addScoreForDecadev
+    addScoreForDecadev,
+    getDecadev
 } from '../controllers/decadevController'
 import { validateDecadevUpdateDetails } from "../utils/decadevUpdateValidator";
 import {
@@ -66,6 +67,7 @@ router.post("/create_stack", isAthenticated, validateStackInput, addStack);
 
 /*Admin Create || Edit || Delete Decadev */
 /* Create Decadev */
+router.get("/", getDecadev);
 router.post("/create_decadev", isAthenticated,  validateDecadevDetails, createDecadev);
 
 /* Edit Decadev */
