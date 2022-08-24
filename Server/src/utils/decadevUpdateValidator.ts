@@ -19,6 +19,7 @@ export const validateDecadevUpdateDetails = async (req: Request, res: Response, 
     try{
         //validate update input details
         const data = req.body;
+        console.log(data)
         const valid = await decadevUpdateSchema.validateAsync({...data});
         if(valid){
             next();
