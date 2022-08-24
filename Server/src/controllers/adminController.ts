@@ -138,9 +138,13 @@ export const filterScores = asyncHandler(async function (
   const { name } = <IStack>admin?.stack ?? {name: false};
   if(!name) throw new Error("Admin has not been assigned a stack")
   if (admin) {
-    if (week) {;
-      const scores = await getWeeklyScores(name, +week);
-      res.status(200).send(scores);
+    if (week) {
+      try {
+        const scores = await getWeeklyScores(name, +week);
+        res.status(200).send(scores);
+      } catch (error) {
+        throw new Error(`${error}`)
+      }
     } else {
       throw new Error("No week specified");
     }
