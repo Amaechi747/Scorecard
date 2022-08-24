@@ -49,7 +49,9 @@ export const editAdmin = asyncHandler(async function (
   next: NextFunction
 ) {
   const { id } = req.params;
+  console.log('I am here oo', id)
   const update: IAdminUpdate = req.body;
+  console.log('Update',update)
   // Update details
   const updatedAdminData = await ADMIN.edit(id, update);
   //Send updated data
