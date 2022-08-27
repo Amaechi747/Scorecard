@@ -41,7 +41,7 @@ import { validateDecadevDetails } from "../utils/inputValidation/decadevValidato
 const router = express.Router();
 
 /* Create Admin */
-router.get("/", getAdmin);
+router.get("/all_admin", getAdmin);
 router.post("/create_user", validateAdminDetails, createAdmin);
 
 /* Update Admin */
@@ -67,7 +67,7 @@ router.post("/create_stack", isAthenticated, validateStackInput, addStack);
 
 /*Admin Create || Edit || Delete Decadev */
 /* Create Decadev */
-router.get("/", getDecadev);
+router.get("/all_decadev", getDecadev);
 router.post("/create_decadev", isAthenticated,  validateDecadevDetails, createDecadev);
 
 /* Edit Decadev */

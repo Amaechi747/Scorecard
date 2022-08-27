@@ -21,6 +21,7 @@ export const validateDecadevUpdateDetails = async(req: Request, res: Response, n
     try{
         //Validate input details
         const data =  req.body;
+        delete req.body.user;
         const valid = await decadevSchema.validateAsync({...data});
         if(valid){
             next();

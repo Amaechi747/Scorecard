@@ -170,6 +170,7 @@ export const DECADEV = {
             data.cummulative = (assessment * 0.2) + (algorithm * 0.2) + (agileTest * 0.2) + (weeklyTask * 0.4)
             if(id) {
                 const decadevScore = await Scores.findOneAndUpdate({ user_id: id }, { $push: { scoresWeekly: data } }, { new: true });
+                console.log(decadevScore);
                 return decadevScore;
             }
         } catch (error) {

@@ -18,6 +18,7 @@ export const createDecadev = asyncHandler(async (req: Request, res: Response, ne
 //Controller for Admin to update the details of a decadev
 export const editDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
+    console.log("123344555555555", req.body)
     const update: IDecadevUpdate = req.body;
     //Update details
     const updatedDecadevData = await DECADEV.edit(id, update)
