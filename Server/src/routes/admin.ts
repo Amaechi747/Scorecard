@@ -41,7 +41,7 @@ import { validateDecadevDetails } from "../utils/inputValidation/decadevValidato
 const router = express.Router();
 
 /* Create Admin */
-router.get("/all_admin", getAdmin);
+router.get("/", getAdmin);
 router.post("/create_user", validateAdminDetails, createAdmin);
 
 /* Update Admin */

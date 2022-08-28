@@ -15,7 +15,7 @@ const adminModelSchema = new Schema({
     password: {type: String, required: true},
     role: {
         type: String, 
-        enum: ["SuperAdmin", "SL", "PA", "Other"],
+        enum: ["SuperAdmin", "SL", "PA", "SA", "Other"],
         required: true },
     stack: {
         type: Schema.Types.ObjectId,
