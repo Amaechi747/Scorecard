@@ -21,7 +21,7 @@ export const getAdminProfile = asyncHandler(async function (
 export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
     if (req.file) {
         const adminId = req.params.id;
-        // console.log('Path: ',req.file.path, '\n');
+        // debug('Path: ',req.file.path, '\n');
 
         const newImageUrl = await ADMIN.updateAdminImage(adminId, req.file.path);
         if(newImageUrl) {
