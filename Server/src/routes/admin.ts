@@ -67,7 +67,7 @@ router.post("/create_stack", isAthenticated, validateStackInput, addStack);
 
 /*Admin Create || Edit || Delete Decadev */
 /* Create Decadev */
-router.get("/", getDecadev);
+router.get("/all_decadev", getDecadev);
 router.post("/create_decadev", isAthenticated,  validateDecadevDetails, createDecadev);
 
 /* Edit Decadev */
