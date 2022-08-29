@@ -336,7 +336,19 @@ const ADMIN = {
         }catch(error){
             throw new Error(`${error}`);
         }
+    },
+
+    async getStackById (userId:any, stackId:any){
+        try {
+            if(userId !== undefined && stackId !== undefined){
+                return await Admin.findOne({_id: userId, stack: stackId})
+
+            }
+        } catch (error) {
+            throw new Error(`${error}`); 
+        }
     }
+
 }
 
 
