@@ -1,8 +1,8 @@
-import express from "express";
+import express, {Request, Response, NextFunction} from "express";
 import {validateAdminDetails, validateAdminPasswordUpdateInput, validateScoreInput, validateStackInput} from '../utils/inputValidation/adminInputValidator';
 import parser from "../utils/imageUpload";
 import {isAthenticated} from "../controllers/middleware/isAthenticated";
-
+import addImageHandler from "../controllers/middleware/addImageHandler";
 import {validateAdminUpdateDetails} from '../utils/inputValidation/adminUpdateValidator';
 import { 
     createDecadev, 
@@ -34,6 +34,7 @@ import {
   addStack,
   editStack,
   deleteStack,
+  viewAllStackById
 } from "../controllers/stackController";
 import { validateDecadevDetails } from "../utils/inputValidation/decadevValidator";
 
@@ -62,9 +63,10 @@ router.delete("/delete/:id", isAthenticated, deleteAdmin);
 /* View All Stack */
 router.get("/view_all_stack", isAthenticated, viewAllStack);
 
-/* Create Stack */
-router.post("/create_stack", isAthenticated, validateStackInput, addStack);
+// router.get("/view_all_stack/", isAthenticated, viewAllStackById);
 
+/* Create Stack */
+router.post("/create_stack", parser.single("image"), addImageHandler, validateStackInput, addStack);
 /*Admin Create || Edit || Delete Decadev */
 /* Create Decadev */
 router.get("/", getDecadev);
