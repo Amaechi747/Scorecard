@@ -182,14 +182,38 @@ const ADMIN = {
 
     async get() {
         try {
-            const getAllAdmin = Admin.aggregate([{
-                $match: {
-                    role: {
-                        $nin:
-                        ['SuperAdmin']
+            const getAllAdmin = Admin.aggregate([
+                {
+                    $match: {
+                        role: {
+                            $nin:
+                            ['SuperAdmin']
+                        }
                     }
-                }
-            }]) 
+                }, {
+                    $lookup: {
+                      from: 'stacks', 
+                      localField: 'stack', 
+                      foreignField: '_id', 
+                      as: 'stack'
+                    }
+                  }, {
+                    $unwind: {
+                      path: '$stack'
+                    }
+                  }, {
+                    $project: {
+                      firstName: 1, 
+                      lastName: 1, 
+                      email: 1, 
+                      squad: 1,
+                      role: 1, 
+                      stack: {
+                        name: 1
+                      }
+                    }
+                  }
+        ]) 
             
             return getAllAdmin
         }

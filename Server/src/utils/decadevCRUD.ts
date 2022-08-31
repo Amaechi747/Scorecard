@@ -194,11 +194,32 @@ export const DECADEV = {
     //Get all decadev
     async get() {
         try {
-            const getAllDecadev = Decadev.aggregate([{
-                $match: {
-                    
+            const getAllDecadev = Decadev.aggregate([
+                {
+                  $match: {}
+                }, {
+                  $lookup: {
+                    from: 'stacks', 
+                    localField: 'stack', 
+                    foreignField: '_id', 
+                    as: 'stack'
+                  }
+                }, {
+                  $unwind: {
+                    path: '$stack'
+                  }
+                }, {
+                  $project: {
+                    firstName: 1, 
+                    lastName: 1, 
+                    email: 1, 
+                    squad: 1, 
+                    stack: {
+                      name: 1
+                    }
+                  }
                 }
-            }]) 
+              ]) 
             
             return getAllDecadev
         }
@@ -209,6 +230,9 @@ export const DECADEV = {
 
         }
     },
+
+
+    
 
     //Update Password
     async updatePassword(userData: any, password: string){

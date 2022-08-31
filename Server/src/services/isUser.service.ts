@@ -3,6 +3,7 @@ import Decadev from '../models/decadevSchema';
 
 
 const isUser = async function(email: string){
+    console.log(email)
         const emailSubstring = email.split('@')[1];
         //Admin verification
        
