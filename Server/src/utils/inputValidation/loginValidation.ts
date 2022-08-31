@@ -20,6 +20,7 @@ export const loginDetailsValidation = async function(req: Request, res: Response
 
         // Validate input details
         const data = req.body
+        delete req.body.user
         const valid = await loginSchema
             .validateAsync({...data});
         if(valid){
