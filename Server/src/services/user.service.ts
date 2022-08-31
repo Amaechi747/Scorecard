@@ -44,7 +44,7 @@ const User = {
         }
 
         // Decadev verification
-        if(emailSubstring === "decagon.dev"){
+        if(emailSubstring === "decagon.dev" || "gmail.com"){
             const filter = {email}
             const isDecadev = await Decadev.findOne(filter);
             console.log(isDecadev)
