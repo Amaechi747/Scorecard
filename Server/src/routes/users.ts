@@ -23,7 +23,7 @@ router.get('/', function(req: Request, res: Response, next: NextFunction) {
   res.send('respond with a resource');
 });
 
-router.get('/get_current_performance/:id', getCurrentPerformance)
+// router.get('/get_current_performance/:id', getCurrentPerformance)
 /* Verify Decadev */
 router.get('/verify', verifyDecadev);
 
