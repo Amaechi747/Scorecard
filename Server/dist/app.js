@@ -21,7 +21,7 @@ exports.app = (0, express_1.default)();
 /***********************************************************Middleware*************************************************/
 exports.app.use((0, cors_1.default)({
     origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 }));
 exports.app.use((0, morgan_1.default)('dev'));
 exports.app.use(express_1.default.json());
