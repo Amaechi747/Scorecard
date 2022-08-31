@@ -12,7 +12,7 @@ export const isAthenticated = async function(req: Request, res: Response, next: 
             if (process.env.JWT_SECRET){
                 const verified = jwt.verify(token, process.env.JWT_SECRET);
                 if(verified && verified instanceof Object){
-                    const {email} = verified.id;
+                    const { email } = verified.id;
                     const user = await isUser(email)
                     req.body.user = user;
                     next(); 
