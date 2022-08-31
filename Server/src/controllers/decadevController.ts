@@ -37,6 +37,7 @@ export const editDecadev = asyncHandler(async (req: Request, res: Response, next
     //Update details
     const updatedDecadevData = await DECADEV.edit(id, update)
     //Send updated data
+    console.log('Updated Decadev Data: \n', updatedDecadevData)
     if (updatedDecadevData) {
         res.status(201).send({ status: 'success', message: "Update saved" });
         return;

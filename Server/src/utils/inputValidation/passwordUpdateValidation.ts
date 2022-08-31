@@ -18,7 +18,8 @@ export const updatePasswordDetailsValidation = async function(req: Request, res:
     try {
 
         // Validate input details
-        const data = req.body
+        const data = req.body;
+        delete req.body.user;
         const valid = await passwordUpdateSchema
             .validateAsync({...data});
         if(valid){
