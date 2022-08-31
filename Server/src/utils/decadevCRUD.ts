@@ -64,19 +64,19 @@ export const DECADEV = {
             throw new Error(`${error}`);
         }
     },
-    // async getDecadev(id: string){
-    //     try{
-    //         //use id to get data from db
-    //         const decadev = await Decadev.findById(id, { password: 0});
-    //         if(decadev){
-    //             return decadev;
-    //         } else {
-    //             throw new Error('Decadev not found');
-    //         }
-    //     } catch(error){
-    //         throw new Error(`${error}`);
-    //     }
-    // },
+    async getDecadev(id: string){
+        try{
+            //use id to get data from db
+            const decadev = await Decadev.findById(id, { password: 0});
+            if(decadev){
+                return decadev;
+            } else {
+                throw new Error('Decadev not found');
+            }
+        } catch(error){
+            throw new Error(`${error}`);
+        }
+    },
 
     // Edit Decadev Details
     async edit(id: unknown, update: IDecadevUpdate){
@@ -377,7 +377,25 @@ export const DECADEV = {
         const { scoresWeekly }:any = weeklyPerformance;
         const weeklyCumulative = scoresWeekly.map((score:IWeeklyScore,index:number) => `{week ${index+1}: ${score.cummulative}}`);
         return weeklyCumulative;
-    }
+    },
+
+    async updateDevImage (id: string, path: string) {
+        try {
+            const updateDoc = await Decadev.updateOne(
+                { _id: id },
+                { $set: { imageUrl: path } },
+                { upsert: true }
+            );
+            if (updateDoc.modifiedCount) {
+                return path;
+            } else {
+                throw new Error("Image not updated");
+            }
+        } catch (error) {
+            throw new Error(`${error}`);
+            
+        }
+    },
 
 
 }

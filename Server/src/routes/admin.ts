@@ -11,7 +11,7 @@ import {
     activateDecadev, 
     deactivateDecadev,
     addScoreForDecadev,
-    getDecadev
+    getDecadevs
 } from '../controllers/decadevController'
 import { validateDecadevUpdateDetails } from "../utils/decadevUpdateValidator";
 import {
@@ -69,7 +69,7 @@ router.get("/view_all_stack", isAthenticated, viewAllStack);
 router.post("/create_stack", parser.single("image"), addImageHandler, validateStackInput, addStack);
 /*Admin Create || Edit || Delete Decadev */
 /* Create Decadev */
-router.get("/all_decadev", getDecadev);
+router.get("/all_decadev", getDecadevs);
 router.post("/create_decadev", isAthenticated,  validateDecadevDetails, createDecadev);
 
 /* Edit Decadev */

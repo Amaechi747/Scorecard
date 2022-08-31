@@ -25,6 +25,7 @@ export const createDecadevSchema = new Schema({
     phoneNo: {type: Number, default: 1234},
     squad: {type: String, required: true},
     password: {type: String, required: true},
+    imageUrl: String,
     status: {
         type: String, 
         enum: ["active", "inactive"],
