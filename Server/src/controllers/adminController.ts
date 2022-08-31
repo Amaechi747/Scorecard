@@ -69,7 +69,8 @@ export const activateAdmin = asyncHandler(async function (
   const { id } = req.params;
   const activated = await ADMIN.activate(id);
   if (activated) {
-    res.status(200).send(activated);
+    // res.status(200).send(activated);
+    res.status(200).send({ status: 'success', message: "An activation email has been sent to the admin"});
     return;
   }
 });
@@ -109,7 +110,7 @@ export const deactivateAdmin = asyncHandler(async function (
   const { id } = req.params;
   const deactivated = await ADMIN.deactivate(id);
   if (deactivated) {
-    res.status(201).send(deactivated);
+    res.status(201).send({status: 'success', message: 'Admin deactivated'});
     return;
   }
 });
@@ -123,7 +124,7 @@ export const deleteAdmin = asyncHandler(async function (
   const { id } = req.params;
   const deleted = await ADMIN.delete(id);
   if (deleted) {
-    res.status(204).send(deleted);
+    res.status(200).send({ status: 'success', message: "Admin deleted successfully"});
     return;
   }
 });
