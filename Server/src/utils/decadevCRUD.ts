@@ -38,9 +38,26 @@ export const DECADEV = {
 
             const newDecadev = new Decadev({...data, password: hashedPassword, stack: stackId});
             newDecadev.validateSync();
-            const decadev = newDecadev.save();
+            const decadev = await newDecadev.save();
 
             if(decadev){
+                /********************************** Email Service to admin ************************************/
+                //Send email to new Admin
+                const { firstName, lastName } = decadev;
+                const url = `${process.env.BASE_URL}/users/login`;
+                const subject = `Decadev Login Details`
+                //Send email to applicant
+                const text = `<p>You have recently been added as a decadevv. <br>
+                <span style="text-decoration: underline"> Login details <span> <br>
+                <span style="text-decoration: none"> Email:<span> ${email} <br>
+                <span style="text-decoration: none"> Password: <span> ${password} <br>
+                <span style="text-decoration: none">Go to portal <a href=" http://${url}"> click here </a>. <span></p>`
+                const mail = message(<string>firstName, text)
+
+                
+                await emailService(email, subject, mail, `${firstName} ${lastName}`);
+                /********************************** Email Service to admin ************************************/
+
                 return decadev;
             }
         } catch (error){
@@ -114,17 +131,12 @@ export const DECADEV = {
 
                 const subject = 'Latest Decadev';
                 //Send email to decadev
-                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.
-                <span style="text-decoration: underline"> Login Details </span> </br>
-                Email: ${email} </br>
-                Login Password: ${password} </br>
-                </p>
-                </p>`;
+                const text = `<p>Click to verify your account as a decadev <a href="http://${url}"> click here</a>.</p>`;
                 const mail = message(<string>firstName, text);
 
                 await emailService(email, subject, mail, `${firstName} ${lastName}`);
 
-                return decadev;
+                return "Your account has be verified successfully";
             }
         } catch (error){
             throw new Error(`${error}`);
