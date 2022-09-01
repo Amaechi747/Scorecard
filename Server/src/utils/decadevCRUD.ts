@@ -236,8 +236,8 @@ export const DECADEV = {
 
     //Update Password
     async updatePassword(userData: any, password: string){
-               const {_id} = userData;
-               const emailSubstring = password.split('@')[1]
+               const {_id, email: mail} = userData;
+               const emailSubstring = mail.split('@')[1]
                if(emailSubstring !== 'decagon.dev'){
                     throw new Error('Email must be a valid decadev email')
                }
