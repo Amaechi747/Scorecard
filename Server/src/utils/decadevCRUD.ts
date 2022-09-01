@@ -67,7 +67,7 @@ export const DECADEV = {
     async getDecadev(id: string){
         try{
             //use id to get data from db
-            const decadev = await Decadev.findById(id, { password: 0});
+            const decadev = await Decadev.findById(id, { password: 0}).populate('stack');
             if(decadev){
                 return decadev;
             } else {
