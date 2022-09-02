@@ -20,7 +20,7 @@ exports.getAdminProfile = (0, express_async_handler_1.default)(async function (r
 exports.addNewImage = (0, express_async_handler_1.default)(async function (req, res) {
     if (req.file) {
         const adminId = req.params.id;
-        // console.log('Path: ',req.file.path, '\n');
+        // debug('Path: ',req.file.path, '\n');
         const newImageUrl = await adminCRUD_1.default.updateAdminImage(adminId, req.file.path);
         if (newImageUrl) {
             res.status(200).send({ status: 'success', imageUrl: newImageUrl });

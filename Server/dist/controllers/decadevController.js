@@ -19,10 +19,12 @@ exports.createDecadev = (0, express_async_handler_1.default)(async (req, res, ne
 //Controller for Admin to update the details of a decadev
 exports.editDecadev = (0, express_async_handler_1.default)(async (req, res, next) => {
     const { id } = req.params;
+    console.log("123344555555555", req.body);
     const update = req.body;
     //Update details
     const updatedDecadevData = await decadevCRUD_1.DECADEV.edit(id, update);
     //Send updated data
+    console.log('Updated Decadev Data: \n', updatedDecadevData);
     if (updatedDecadevData) {
         res.status(201).send({ status: 'success', message: "Update saved" });
         return;

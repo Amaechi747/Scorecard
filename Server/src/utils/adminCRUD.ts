@@ -224,7 +224,7 @@ const ADMIN = {
 
         }
     },
-    // Activate Admin
+    // Activate Admin 
     async activate(id: string) {
         try {
 

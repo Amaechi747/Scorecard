@@ -14,7 +14,7 @@ const router = express_1.default.Router();
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
-router.get('/get_current_performance/:id', decadevController_1.getCurrentPerformance);
+// router.get('/get_current_performance/:id', getCurrentPerformance)
 /* Verify Decadev */
 router.get('/verify', decadevController_1.verifyDecadev);
 /*********** Get performance tracker *********/

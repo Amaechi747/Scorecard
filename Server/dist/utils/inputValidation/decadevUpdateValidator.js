@@ -43,6 +43,7 @@ const validateDecadevUpdateDetails = async (req, res, next) => {
     try {
         //Validate input details
         const data = req.body;
+        delete req.body.user;
         const valid = await decadevSchema.validateAsync({ ...data });
         if (valid) {
             next();

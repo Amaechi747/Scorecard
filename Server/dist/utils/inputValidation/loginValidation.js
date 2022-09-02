@@ -37,6 +37,7 @@ const loginDetailsValidation = async function (req, res, next) {
     try {
         // Validate input details
         const data = req.body;
+        delete req.body.user;
         const valid = await loginSchema
             .validateAsync({ ...data });
         if (valid) {

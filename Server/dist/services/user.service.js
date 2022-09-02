@@ -43,7 +43,7 @@ const User = {
             }
         }
         // Decadev verification
-        if (emailSubstring === "decagon.dev") {
+        if (emailSubstring === "decagon.dev" || "gmail.com") {
             const filter = { email };
             const isDecadev = await decadevSchema_1.default.findOne(filter);
             console.log(isDecadev);

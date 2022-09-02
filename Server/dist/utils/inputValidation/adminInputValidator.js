@@ -134,6 +134,7 @@ const decadevScore = joi_1.default.object({
 });
 const validateScoreInput = async function (req, res, next) {
     try {
+        delete req.body.user;
         const valid = await decadevScore.validateAsync({ ...req.body });
         if (valid)
             next();
