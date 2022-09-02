@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from "express-async-handler";
-import Decadev from '../models/decadevSchema';
 import { DECADEV } from '../utils/decadevCRUD';
 
 
@@ -15,10 +14,37 @@ export const createDecadev = asyncHandler(async (req: Request, res: Response, ne
     }
 })
 
+
+export const getDevProfile = asyncHandler(async function (
+    req: Request,
+    res: Response
+  ) {
+    // Expecting admins ID from req.params
+    const devId = req.params.id;
+    const user = await DECADEV.getDecadev(devId);
+    if (user) {
+      res.status(200).json(user);
+    }
+  });
+
+
+export const addNewImage = asyncHandler( async function (req: Request, res: Response) {
+    if (req.file) {
+        const userId = req.params.id;
+        // debug('Path: ',req.file.path, '\n');
+
+        const newImageUrl = await DECADEV.updateDevImage(userId, req.file.path);
+        if(newImageUrl) {
+            res.status(200).send({ status: 'success', imageUrl: newImageUrl});
+            return;
+        }
+    }
+} );
+
 //Controller for Admin to update the details of a decadev
 export const editDecadev = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    console.log("123344555555555", req.body)
+    
     const update: IDecadevUpdate = req.body;
     //Update details
     const updatedDecadevData = await DECADEV.edit(id, update)
@@ -43,15 +69,15 @@ export const deleteDecadev = asyncHandler(async (req: Request, res: Response, ne
 })
 
 //Get all decadev
-export const getDecadev = asyncHandler(async function (
+export const getDecadevs = asyncHandler(async function (
     req: Request,
     res: Response,
     next: NextFunction
   ) {
     //    Get users
-    const getAllDecadev = await DECADEV.get();
-    if (getAllDecadev) {
-      res.status(200).send(getAllDecadev);
+    const getAllDecadevs = await DECADEV.get();
+    if (getAllDecadevs) {
+      res.status(200).send(getAllDecadevs);
     }
   });
 
